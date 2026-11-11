@@ -54,6 +54,7 @@ came from; every record is meant to read without them.
 | [18](0018-prettier-for-the-app.md) | Prettier formats the app, and the gate checks it. | Yes |
 | [19](0019-eslint-for-the-app.md) | ESLint lints the app with type information, every finding an error. | Yes |
 | [20](0020-the-app-is-pastille.md) | The app is called Pastille everywhere, with nothing migrated from its old names. | Yes |
+| [23](0023-in-line-with-the-p-suite.md) | Pastille follows the P suite's conventions: commits checked by the gate, every release file signed with minisign, the contract for agents in `AGENTS.md`. | Yes |
 
 ## Writing one
 

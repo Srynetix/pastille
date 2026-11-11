@@ -10,7 +10,7 @@ import { execFileSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 
 const LINE = 'SPDX-License-Identifier: MIT OR Apache-2.0'
-const SOURCE = /\.(rs|ts|js|mjs|svelte)$/
+const SOURCE = /\.(rs|ts|js|mjs|svelte|css|sh)$/
 
 const tracked = execFileSync('git', ['ls-files'], { encoding: 'utf8' })
 	.split('\n')

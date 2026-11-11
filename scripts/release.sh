@@ -21,7 +21,7 @@
 #   --skip-checks leaves `just ci` out, for a commit it has just passed on.
 # - Files: Pastille_<version>_macos-universal.dmg, the app `just
 #   desktop-universal` builds, in a disk image made with hdiutil, and its
-#   .sha256. Unsigned (ADR 0013): the notes say how to open it. A .dmg of
+#   .sha256 and .minisig. Not notarized (ADR 0013): the notes say how to open it. A .dmg of
 #   this commit already built is published as is; --rebuild builds it again.
 # - --linux: Pastille_<version>_{amd64,arm64}.{deb,AppImage}, and
 #   Pastille_<version>_amd64.pkg.tar.zst for Arch Linux, built in Docker by
@@ -32,6 +32,9 @@
 #   SmartScreen warns, and the notes say how past it. Not opened before
 #   publishing: nothing here can run them.
 #   Builds of this commit already there are reused, as the .dmg is.
+# - Every file is signed with minisign (brew install minisign), with the key
+#   PASTILLE_SIGN_KEY names (~/.minisign/pastille.key by default), whose public
+#   half is update-key.pub (ADR 0023): its .minisig is published beside it.
 # - Notes: the changelog since the previous release (scripts/changelog.sh,
 #   from the Conventional commit subjects), then how to open the app;
 #   --notes or --notes-file replace the changelog.
@@ -79,6 +82,10 @@ fail() { printf '\033[31m✗ %s\033[0m\n' "$*" >&2; exit 1; }
 [[ $to == */* ]] || fail "--to owner/repo, not '${to}'"
 command -v gh >/dev/null || fail "gh not found (brew install gh)"
 [[ -z "$notes_file" || -f "$notes_file" ]] || fail "--notes-file: no $notes_file"
+command -v minisign >/dev/null || fail "minisign not found (brew install minisign)"
+sign_key=${PASTILLE_SIGN_KEY:-$HOME/.minisign/pastille.key}
+[[ -f update-key.pub ]] || fail "no update-key.pub: minisign -G -p update-key.pub -s $sign_key"
+[[ -f "$sign_key" ]] || fail "no signing key $sign_key (PASTILLE_SIGN_KEY): minisign -G -p update-key.pub -s $sign_key"
 
 # One version, written in four places.
 version=$(node -p "require('./desktop/tauri.conf.json').version")
@@ -101,6 +108,10 @@ commit=$(git rev-parse HEAD)
 short=$(git rev-parse --short HEAD)
 # Without this, GitHub would tag its own default branch, which may be another commit.
 gh api "repos/$to/commits/$commit" >/dev/null 2>&1 || fail "$short is not on $to yet: push it first"
+
+# Checked even with --skip-checks: the notes are built from these subjects.
+step "The commits"
+scripts/check-commits.sh
 
 if $checks; then
 	step "The gate"
@@ -198,7 +209,15 @@ if $windows; then
 	cp "desktop/target/aarch64-pc-windows-msvc/release/bundle/nsis/Pastille_${version}_arm64-setup.exe" \
 		"$out/Pastille_${version}_windows-arm64-setup.exe"
 fi
+rm -f "$out"/*.minisig
 (cd "$out" && for f in Pastille_*; do [[ $f == *.sha256 ]] || shasum -a 256 "$f" >"$f.sha256"; done)
+step "Signing"
+for f in "$out"/Pastille_*; do
+	[[ $f == *.sha256 ]] && continue
+	minisign -S -s "$sign_key" -m "$f" -t "file:$(basename "$f")" >/dev/null || fail "signing $(basename "$f")"
+	minisign -V -q -p update-key.pub -m "$f" >/dev/null \
+		|| fail "$(basename "$f") does not verify with update-key.pub: PASTILLE_SIGN_KEY is another key"
+done
 files=("$out"/Pastille_*)
 
 changes=""
