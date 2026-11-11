@@ -93,6 +93,15 @@ deny:
 boundary:
     node scripts/check-import-boundary.mjs
 
+# The fast static checks: format, lint, types. The types need the wasm glue,
+# so its unoptimised build comes first.
+check: fmt-check clippy wasm-dev types lint
+
+# Every commit since the last release follows Conventional Commits: the release
+# notes are built from them (ADR 0023). A range checks those commits instead.
+check-commits *ARGS:
+    scripts/check-commits.sh {{ARGS}}
+
 # Every source file carries the SPDX line (ADR 0001).
 spdx:
     node scripts/check-spdx.mjs
@@ -210,8 +219,10 @@ desktop-smoke:
 
 # ------------------------------------------------------------------------- ci
 
-# The gate. Everything a hosted pipeline would run, fastest failure first.
-ci: fmt-check spdx clippy test-core deny npm-licences wasm boundary types lint
+# The gate. Everything a hosted pipeline would run, fastest failure first. The
+# app's tests run here against the optimised bundle, with the benchmark: the
+# stricter form of `test-app`, so `test` is not run on top of it.
+ci: check-commits check spdx test-core deny npm-licences wasm boundary
     VITE_BENCH=1 pnpm --filter app test
     pnpm --filter app build
     just offline

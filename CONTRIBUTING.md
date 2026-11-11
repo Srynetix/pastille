@@ -47,6 +47,8 @@ command, which runs formatting, lints, licence checks, every test in the core an
 browser, a cold load and an offline run. It also runs benchmarks, so run it on mains power: a
 laptop on battery may fail them while the code is fine.
 
+`just check-commits` checks your commit subjects alone, and
+`ln -s ../../scripts/check-commits.sh .git/hooks/commit-msg` checks each one as it is made.
 `just fmt` fixes formatting; `just test` runs the tests alone while you work.
 
 ### Conventions

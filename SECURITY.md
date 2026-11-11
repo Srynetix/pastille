@@ -24,6 +24,17 @@ datasheet link, opened in your browser when you click it, and the desktop app fo
 `https://` links. A way for a circuit file, an example or a program to
 make Pastille do otherwise is the kind of problem worth reporting.
 
-The desktop apps are not signed: macOS and Windows warn about them the first time. Download
-them only from this repository's releases, and check them against the `.sha256` files
-published beside them.
+## Checking what you download
+
+Every file of a release is published with its `.sha256` and its `.minisig`, signed with
+[minisign](https://jedisct1.github.io/minisign/) by the key whose public half is
+[`update-key.pub`](update-key.pub) ([ADR 0023](docs/adrs/0023-in-line-with-the-p-suite.md)).
+To check a download:
+
+```bash
+minisign -Vm Pastille_<version>_macos-universal.dmg -p update-key.pub
+```
+
+Download the apps only from this repository's releases. They are not notarized by Apple nor
+signed for Windows: macOS and Windows warn about them the first time, and the release notes
+say how past the warning.
