@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/pastille/favicon.svg" />
+    <!-- C-138: drawn edge to edge on a phone, the shell keeping clear of the
+         notch and the home bar itself; and on Android the on-screen keyboard
+         shrinks the page, so a field in a sheet is not left under it. iOS
+         ignores that, and moves the page to the field instead. -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content"
+    />
+
+    <!-- Installable and offline-capable (C-27, design doc 7.3). The colour is
+         the dark surface the shell is drawn on, so the window chrome around an
+         installed app matches what is inside it rather than flashing white. -->
+    <link rel="manifest" href="/pastille/manifest.webmanifest" />
+    <meta name="theme-color" content="#14161a" />
+    <link rel="apple-touch-icon" href="/pastille/icon-192.png" />
+
+    <title>Pastille</title>
+    <script type="module" crossorigin src="/pastille/assets/index-mEQv-8HC.js"></script>
+    <link rel="stylesheet" crossorigin href="/pastille/assets/index-67G4S2Xx.css">
+    <link rel="preload" href="/pastille/assets/pastille_core_bg-D9JoeHhy.wasm" as="fetch" type="application/wasm" crossorigin="">
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
