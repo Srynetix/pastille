@@ -1,0 +1,22 @@
+[package]
+name = "pastille-desktop"
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+authors = ["Denis Bourge"]
+repository = "https://github.com/Srynetix/pastille"
+publish = false
+
+# Its own workspace: the desktop shell pulls in a web view and a windowing
+# stack the core and the wasm bundle must not wait on, so `just ci` never
+# compiles it unless asked.
+[workspace]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }

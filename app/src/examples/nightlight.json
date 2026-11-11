@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 80.0, "y": 240.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 47000.0}}, "x": 220.0, "y": 140.0, "turns": 1},
+    {"kind": {"Ldr": {"light": 0.8}}, "x": 220.0, "y": 340.0, "turns": 1},
+    {"kind": {"Bjt": {"polarity": "Npn"}}, "x": 340.0, "y": 240.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 360.0, "y": 100.0, "turns": 1},
+    {"kind": {"Led": {"colour": "White"}}, "x": 360.0, "y": 180.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "a"}, {"element": 4, "pin": "a"}]},
+    {"pins": [{"element": 1, "pin": "b"}, {"element": 2, "pin": "a"}, {"element": 3, "pin": "b"}]},
+    {"pins": [{"element": 4, "pin": "b"}, {"element": 5, "pin": "anode"}]},
+    {"pins": [{"element": 5, "pin": "cathode"}, {"element": 3, "pin": "c"}]},
+    {"pins": [{"element": 3, "pin": "e"}, {"element": 2, "pin": "b"}, {"element": 0, "pin": "-"}]}
+  ]
+}

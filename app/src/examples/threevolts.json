@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 120.0, "y": 200.0, "turns": 0},
+    {"kind": {"Regulator": {"part": "Lm1117"}}, "x": 240.0, "y": 120.0, "turns": 0},
+    {"kind": "Voltmeter", "x": 360.0, "y": 200.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 100.0}}, "x": 460.0, "y": 120.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Blue"}}, "x": 560.0, "y": 200.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "in"}]},
+    {"pins": [{"element": 1, "pin": "out"}, {"element": 2, "pin": "+"}, {"element": 3, "pin": "a"}]},
+    {"pins": [{"element": 3, "pin": "b"}, {"element": 4, "pin": "anode"}]},
+    {"pins": [{"element": 4, "pin": "cathode"}, {"element": 2, "pin": "-"}, {"element": 1, "pin": "gnd"}, {"element": 0, "pin": "-"}]}
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 100.0, "y": 240.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 10000.0}}, "x": 240.0, "y": 140.0, "turns": 1},
+    {"kind": {"Thermistor": {"celsius": 25.0}}, "x": 240.0, "y": 340.0, "turns": 1},
+    {"kind": "Voltmeter", "x": 340.0, "y": 340.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "a"}]},
+    {"pins": [{"element": 1, "pin": "b"}, {"element": 2, "pin": "a"}, {"element": 3, "pin": "+"}]},
+    {"pins": [{"element": 2, "pin": "b"}, {"element": 3, "pin": "-"}, {"element": 0, "pin": "-"}]}
+  ]
+}

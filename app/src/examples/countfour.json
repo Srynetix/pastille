@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 40.0, "y": 300.0, "turns": 1},
+    {"kind": "Timer", "x": 200.0, "y": 240.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 1000.0}}, "x": 100.0, "y": 190.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 10000.0}}, "x": 120.0, "y": 250.0, "turns": 0},
+    {"kind": {"Capacitor": {"farads": 1e-05, "initial_volts": 0.0}}, "x": 140.0, "y": 310.0, "turns": 1},
+    {"kind": "Decade", "x": 380.0, "y": 240.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 560.0, "y": 140.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Red"}}, "x": 640.0, "y": 140.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 560.0, "y": 160.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Red"}}, "x": 640.0, "y": 160.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 560.0, "y": 180.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Red"}}, "x": 640.0, "y": 180.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 560.0, "y": 200.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Red"}}, "x": 640.0, "y": 200.0, "turns": 0}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 2, "pin": "a"}, {"element": 1, "pin": "VCC"}, {"element": 5, "pin": "VDD"}]},
+    {"pins": [{"element": 2, "pin": "b"}, {"element": 3, "pin": "a"}, {"element": 1, "pin": "DIS"}]},
+    {"pins": [{"element": 3, "pin": "b"}, {"element": 1, "pin": "TRIG"}, {"element": 1, "pin": "THR"}, {"element": 4, "pin": "a"}]},
+    {"pins": [{"element": 1, "pin": "OUT"}, {"element": 5, "pin": "CLK"}]},
+    {"pins": [{"element": 5, "pin": "Q4"}, {"element": 5, "pin": "RST"}]},
+    {"pins": [{"element": 5, "pin": "Q0"}, {"element": 6, "pin": "a"}], "waypoints": [{"x": 450.0, "y": 190.0}, {"x": 450.0, "y": 140.0}]},
+    {"pins": [{"element": 6, "pin": "b"}, {"element": 7, "pin": "anode"}]},
+    {"pins": [{"element": 5, "pin": "Q1"}, {"element": 8, "pin": "a"}], "waypoints": [{"x": 460.0, "y": 200.0}, {"x": 460.0, "y": 160.0}]},
+    {"pins": [{"element": 8, "pin": "b"}, {"element": 9, "pin": "anode"}]},
+    {"pins": [{"element": 5, "pin": "Q2"}, {"element": 10, "pin": "a"}], "waypoints": [{"x": 470.0, "y": 210.0}, {"x": 470.0, "y": 180.0}]},
+    {"pins": [{"element": 10, "pin": "b"}, {"element": 11, "pin": "anode"}]},
+    {"pins": [{"element": 5, "pin": "Q3"}, {"element": 12, "pin": "a"}], "waypoints": [{"x": 480.0, "y": 220.0}, {"x": 480.0, "y": 200.0}]},
+    {"pins": [{"element": 12, "pin": "b"}, {"element": 13, "pin": "anode"}]},
+    {"pins": [{"element": 0, "pin": "-"}, {"element": 4, "pin": "b"}, {"element": 1, "pin": "GND"}, {"element": 5, "pin": "VSS"}, {"element": 5, "pin": "INH"}, {"element": 7, "pin": "cathode"}, {"element": 9, "pin": "cathode"}, {"element": 11, "pin": "cathode"}, {"element": 13, "pin": "cathode"}]}
+  ]
+}

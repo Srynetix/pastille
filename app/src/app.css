@@ -1,0 +1,210 @@
+/*
+ * Colour and type tokens, defined once and referenced everywhere.
+ *
+ * Dark and light both come from prefers-color-scheme. The [data-theme]
+ * overrides exist so that an explicit toggle is a one-line addition rather
+ * than a restructuring — nothing sets the attribute yet.
+ *
+ * The palette is the redesign's (design doc §15, C-126): colour is used where
+ * it carries a meaning — current, selection, a warning, a part's family, a
+ * wire's voltage — and nowhere else. The light theme is the same meanings
+ * darkened until they read on white.
+ */
+
+:root {
+	--bg: #ffffff;
+	--sunken: #f5f5fa;
+	--raised: #ecedf5;
+	--edge: #dadce8;
+	/* The canvas grid, which is not a border however much it looks like one:
+	   it is the paper the circuit is drawn on, and it has to stay behind the
+	   labels and the notes written over it rather than competing with them.
+	   Its own token because the two themes want opposite things — on white
+	   the edge colour is already quiet enough, on black it was not. */
+	--grid: #dadce8;
+	--fg: #171927;
+	--muted: #5b607a;
+	--ok: #0f8a5f;
+	--failed: #c62828;
+	--accent: #0a7bc2;
+	--warning: #c2410c;
+
+	/* The canvas's own three, which used to borrow --fg, --ok and --accent:
+	   a wire is not text, current is not "fine", and a selection is not a
+	   link. */
+	--wire: #5b607a;
+	--current: #c98a00;
+	--selection: #0a7bc2;
+	/* Text on a selected control: white reads on the light theme's blue, as
+	   ink does on the dark one's (4.5:1 either way). */
+	--on-selection: #ffffff;
+
+	/* The one main action, and what is written on it. */
+	--brand: #ffc23d;
+	--on-brand: #10111a;
+
+	/* A colour per family of parts, as the palette groups them (C-59). */
+	--family-power: #9f691b;
+	--family-lights: #d6336c;
+	--family-passive: #0d8177;
+	--family-switches: #7c3aed;
+	--family-motion: #4d7c0f;
+	--family-chips: #2563eb;
+	--family-logic: #c026d3;
+	--family-meters: #04855d;
+
+	/* A wire's voltage, from the circuit's lowest to its highest (C-134).
+	   Lightness moves with it as well as hue, so it reads without colour:
+	   on white the top is the darkest, on ink the lightest. */
+	--volt-low: #7d9cf0;
+	--volt-mid: #8a4fd0;
+	--volt-high: #a3173f;
+
+	color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--bg: #161825;
+		--sunken: #10111a;
+		--raised: #1e2131;
+		--edge: #2b2f44;
+		--grid: #22253a;
+		--fg: #ecedf5;
+		--muted: #a3a8c3;
+		--ok: #4fe0a5;
+		--failed: #ff6b6b;
+		--accent: #5cc8ff;
+		--warning: #ff8a3d;
+		--wire: #9aa0be;
+		--current: #ffc23d;
+		--selection: #5cc8ff;
+		--on-selection: #10111a;
+		--family-power: #ffc23d;
+		--family-lights: #ff6b8b;
+		--family-passive: #4fd1c5;
+		--family-switches: #a78bfa;
+		--family-motion: #a3e635;
+		--family-chips: #6ea8ff;
+		--family-logic: #f0abfc;
+		--family-meters: #4fe0a5;
+		--volt-low: #3354c4;
+		--volt-mid: #9a6ae0;
+		--volt-high: #ff8fab;
+	}
+}
+
+:root[data-theme='light'] {
+	--bg: #ffffff;
+	--sunken: #f5f5fa;
+	--raised: #ecedf5;
+	--edge: #dadce8;
+	--grid: #dadce8;
+	--fg: #171927;
+	--muted: #5b607a;
+	--ok: #0f8a5f;
+	--failed: #c62828;
+	--accent: #0a7bc2;
+	--warning: #c2410c;
+	--wire: #5b607a;
+	--current: #c98a00;
+	--selection: #0a7bc2;
+	/* Text on a selected control: white reads on the light theme's blue, as
+	   ink does on the dark one's (4.5:1 either way). */
+	--on-selection: #ffffff;
+	--family-power: #9f691b;
+	--family-lights: #d6336c;
+	--family-passive: #0d8177;
+	--family-switches: #7c3aed;
+	--family-motion: #4d7c0f;
+	--family-chips: #2563eb;
+	--family-logic: #c026d3;
+	--family-meters: #04855d;
+	--volt-low: #7d9cf0;
+	--volt-mid: #8a4fd0;
+	--volt-high: #a3173f;
+}
+
+:root[data-theme='dark'] {
+	--bg: #161825;
+	--sunken: #10111a;
+	--raised: #1e2131;
+	--edge: #2b2f44;
+	--grid: #22253a;
+	--fg: #ecedf5;
+	--muted: #a3a8c3;
+	--ok: #4fe0a5;
+	--failed: #ff6b6b;
+	--accent: #5cc8ff;
+	--warning: #ff8a3d;
+	--wire: #9aa0be;
+	--current: #ffc23d;
+	--selection: #5cc8ff;
+	--on-selection: #10111a;
+	--family-power: #ffc23d;
+	--family-lights: #ff6b8b;
+	--family-passive: #4fd1c5;
+	--family-switches: #a78bfa;
+	--family-motion: #a3e635;
+	--family-chips: #6ea8ff;
+	--family-logic: #f0abfc;
+	--family-meters: #4fe0a5;
+	--volt-low: #3354c4;
+	--volt-mid: #9a6ae0;
+	--volt-high: #ff8fab;
+}
+
+/*
+ * Type (ADR 0015). Plex Sans for anything read as a sentence; Recursive with
+ * its MONO axis on for anything read as a number, so a reading that changes
+ * does not shift sideways as it does; Recursive's casual side for headings.
+ *
+ * The axes are not part of a font shorthand, so they ride on their own
+ * property; `--font-canvas` is the one a canvas can use, which cannot set
+ * axes at all and so gets Recursive's sans.
+ */
+:root {
+	--font-text: 'IBM Plex Sans Variable', system-ui, sans-serif;
+	--font-mono: 'Recursive Variable', ui-monospace, monospace;
+	--mono-axes: 'MONO' 1, 'CASL' 0.5;
+	--font-display: 'Recursive Variable', system-ui, sans-serif;
+	--display-axes: 'MONO' 0, 'CASL' 1;
+	--font-canvas: 'Recursive Variable', system-ui, sans-serif;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-text);
+	background: var(--bg);
+	color: var(--fg);
+}
+
+h1,
+h2,
+h3 {
+	font-family: var(--font-display);
+	font-variation-settings: var(--display-axes);
+}
+
+kbd,
+code,
+output,
+input:not([type='checkbox'], [type='radio'], [type='range']) {
+	font-family: var(--font-mono);
+	font-variation-settings: var(--mono-axes);
+}
+
+/* iOS zooms the whole page into a field under 16 px the moment it is
+   focused, and leaves it zoomed (C-138). Over every component's own size, so
+   it is one rule rather than one in each. */
+@media (pointer: coarse) {
+	input,
+	select,
+	textarea {
+		font-size: 1rem !important;
+	}
+}

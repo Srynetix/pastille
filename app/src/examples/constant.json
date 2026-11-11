@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 40.0, "y": 240.0, "turns": 1},
+    {"kind": "Adjustable", "x": 200.0, "y": 160.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 62.0}}, "x": 260.0, "y": 220.0, "turns": 1},
+    {"kind": "Ammeter", "x": 320.0, "y": 280.0, "turns": 1},
+    {"kind": {"Led": {"colour": "Red"}}, "x": 320.0, "y": 360.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "in"}]},
+    {"pins": [{"element": 1, "pin": "out"}, {"element": 2, "pin": "a"}]},
+    {"pins": [{"element": 2, "pin": "b"}, {"element": 1, "pin": "adj"}, {"element": 3, "pin": "+"}]},
+    {"pins": [{"element": 3, "pin": "-"}, {"element": 4, "pin": "anode"}]},
+    {"pins": [{"element": 4, "pin": "cathode"}, {"element": 0, "pin": "-"}]}
+  ]
+}

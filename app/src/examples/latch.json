@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 5.0, "series_ohms": 0.0}}, "x": 60.0, "y": 240.0, "turns": 1},
+    {"kind": {"Gate": {"logic": "Nand"}}, "x": 300.0, "y": 240.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 10000.0}}, "x": 160.0, "y": 140.0, "turns": 1},
+    {"kind": {"PushButton": {"closed": false}}, "x": 160.0, "y": 340.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 10000.0}}, "x": 200.0, "y": 140.0, "turns": 1},
+    {"kind": {"PushButton": {"closed": false}}, "x": 200.0, "y": 340.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 420.0, "y": 200.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Green"}}, "x": 500.0, "y": 200.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 420.0, "y": 260.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Red"}}, "x": 500.0, "y": 260.0, "turns": 0}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "VCC"}, {"element": 2, "pin": "a"}, {"element": 4, "pin": "a"}]},
+    {"pins": [{"element": 0, "pin": "-"}, {"element": 1, "pin": "GND"}, {"element": 3, "pin": "b"}, {"element": 5, "pin": "b"}, {"element": 7, "pin": "cathode"}, {"element": 9, "pin": "cathode"}]},
+    {"pins": [{"element": 2, "pin": "b"}, {"element": 3, "pin": "a"}, {"element": 1, "pin": "1A"}]},
+    {"pins": [{"element": 4, "pin": "b"}, {"element": 5, "pin": "a"}, {"element": 1, "pin": "2B"}]},
+    {"pins": [{"element": 1, "pin": "1Y"}, {"element": 1, "pin": "2A"}, {"element": 6, "pin": "a"}]},
+    {"pins": [{"element": 1, "pin": "2Y"}, {"element": 1, "pin": "1B"}, {"element": 8, "pin": "a"}]},
+    {"pins": [{"element": 6, "pin": "b"}, {"element": 7, "pin": "anode"}]},
+    {"pins": [{"element": 8, "pin": "b"}, {"element": 9, "pin": "anode"}]}
+  ]
+}

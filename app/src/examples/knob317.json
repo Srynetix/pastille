@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 12.0, "series_ohms": 0.0}}, "x": 40.0, "y": 240.0, "turns": 1},
+    {"kind": "Adjustable", "x": 200.0, "y": 160.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 240.0}}, "x": 260.0, "y": 220.0, "turns": 1},
+    {"kind": {"Potentiometer": {"ohms": 1500.0, "wiper": 0.5}}, "x": 200.0, "y": 320.0, "turns": 0},
+    {"kind": "Voltmeter", "x": 360.0, "y": 240.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 1000.0}}, "x": 440.0, "y": 240.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "in"}]},
+    {"pins": [{"element": 1, "pin": "out"}, {"element": 2, "pin": "a"}, {"element": 4, "pin": "+"}, {"element": 5, "pin": "a"}]},
+    {"pins": [{"element": 2, "pin": "b"}, {"element": 1, "pin": "adj"}, {"element": 3, "pin": "a"}]},
+    {"pins": [{"element": 3, "pin": "wiper"}, {"element": 3, "pin": "b"}, {"element": 0, "pin": "-"}, {"element": 4, "pin": "-"}, {"element": 5, "pin": "b"}]}
+  ]
+}

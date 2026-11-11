@@ -1,0 +1,57 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+#
+# The desktop shell's dependency policy (ADR 0013). The root `deny.toml` with
+# one addition, and it applies to this workspace only: the core, the wasm
+# bundle and the web app stay under the root policy, unchanged.
+
+[graph]
+targets = [
+    { triple = "aarch64-apple-darwin" },
+    { triple = "x86_64-apple-darwin" },
+    { triple = "x86_64-pc-windows-msvc" },
+    { triple = "aarch64-pc-windows-msvc" },
+    { triple = "x86_64-unknown-linux-gnu" },
+    { triple = "aarch64-unknown-linux-gnu" },
+]
+
+[licenses]
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-3.0",
+    "Zlib",
+    # ADR 0013: file-level copyleft, in unmodified crates Tauri depends on —
+    # Servo's CSS parser (cssparser, cssparser-macros, selectors, dtoa-short)
+    # and option-ext. Nothing of this repository is under it, and nothing of
+    # theirs is copied or changed; `THIRD-PARTY.md` names them and their source.
+    "MPL-2.0",
+]
+confidence-threshold = 0.9
+unused-allowed-license = "allow"
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+
+[advisories]
+yanked = "deny"
+# Unmaintained, not vulnerable, and not ours to replace: each is reached only
+# through Tauri, and goes when Tauri moves off it. Named one by one so a new
+# advisory still fails the check.
+ignore = [
+    # proc-macro-error, through gtk's glib-macros: Linux only, at build time.
+    { id = "RUSTSEC-2024-0370", reason = "via gtk-rs on Linux; build-time proc macro" },
+    # zbus's own wire crates, merged into zbus 6: the opener plugin still
+    # speaks D-Bus through zbus 5, on Linux only.
+    { id = "RUSTSEC-2026-0370", reason = "zvariant, via zbus 5 in tauri-plugin-opener; Linux only" },
+    { id = "RUSTSEC-2026-0371", reason = "zbus_names, via zbus 5 in tauri-plugin-opener; Linux only" },
+    { id = "RUSTSEC-2026-0372", reason = "zvariant_derive, via zbus 5 in tauri-plugin-opener; Linux only" },
+]
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"

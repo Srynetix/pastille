@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 5.0, "series_ohms": 0.0}}, "x": 120.0, "y": 240.0, "turns": 1},
+    {"kind": {"Tmp36": {"celsius": 25.0}}, "x": 260.0, "y": 240.0, "turns": 0},
+    {"kind": "Voltmeter", "x": 380.0, "y": 280.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "+Vs"}]},
+    {"pins": [{"element": 1, "pin": "Vout"}, {"element": 2, "pin": "+"}]},
+    {"pins": [{"element": 0, "pin": "-"}, {"element": 1, "pin": "GND"}, {"element": 2, "pin": "-"}]}
+  ]
+}

@@ -1,0 +1,45 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+#
+# Licence and advisory policy for the Rust dependency tree.
+#
+# ADR 0001 commits the project to shipping nothing copyleft. The realistic way
+# that gets broken is not a deliberate copy but a GPL crate arriving three
+# levels down a transitive tree, so the allow-list is enforced rather than
+# trusted.
+
+[graph]
+# The wasm bundle is the product; the host toolchain is not what we ship.
+targets = [
+    { triple = "wasm32-unknown-unknown" },
+    { triple = "aarch64-apple-darwin" },
+    { triple = "x86_64-unknown-linux-gnu" },
+]
+
+[licenses]
+# Permissive only, and compatible with dual MIT OR Apache-2.0 distribution.
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Unicode-3.0",
+    "Zlib",
+]
+confidence-threshold = 0.9
+# The list is deliberately wider than what the tree uses today: it describes the
+# policy, not the current dependencies, and a new crate under ISC should not
+# need a config change to be accepted.
+unused-allowed-license = "allow"
+
+[bans]
+multiple-versions = "warn"
+wildcards = "deny"
+
+[advisories]
+yanked = "deny"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"

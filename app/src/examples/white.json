@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 160.0, "y": 240.0, "turns": 1},
+    {"kind": {"RgbLed": {"common": "Cathode"}}, "x": 420.0, "y": 240.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 390.0}}, "x": 280.0, "y": 160.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 280.0, "y": 240.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 280.0, "y": 320.0, "turns": 0}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 2, "pin": "a"}, {"element": 3, "pin": "a"}, {"element": 4, "pin": "a"}]},
+    {"pins": [{"element": 2, "pin": "b"}, {"element": 1, "pin": "R"}], "waypoints": [{"x": 360.0, "y": 160.0}, {"x": 360.0, "y": 230.0}]},
+    {"pins": [{"element": 3, "pin": "b"}, {"element": 1, "pin": "G"}]},
+    {"pins": [{"element": 4, "pin": "b"}, {"element": 1, "pin": "B"}], "waypoints": [{"x": 360.0, "y": 320.0}, {"x": 360.0, "y": 250.0}]},
+    {"pins": [{"element": 1, "pin": "com"}, {"element": 0, "pin": "-"}], "waypoints": [{"x": 460.0, "y": 240.0}, {"x": 460.0, "y": 380.0}, {"x": 160.0, "y": 380.0}]}
+  ]
+}

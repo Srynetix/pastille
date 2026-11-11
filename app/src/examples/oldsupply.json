@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from. The sine stands in for the mains: never wire a real circuit to the mains.",
+  "elements": [
+    {"kind": {"SignalGenerator": {"waveform": "Sine", "volts": 24.0, "hertz": 50.0}}, "x": 60.0, "y": 240.0, "turns": 1},
+    {"kind": {"Transformer": {"ratio": 2.0}}, "x": 180.0, "y": 240.0, "turns": 0},
+    {"kind": "Bridge", "x": 300.0, "y": 320.0, "turns": 0},
+    {"kind": {"Electrolytic": {"farads": 0.001, "initial_volts": 0.0, "rated": "V16"}}, "x": 400.0, "y": 240.0, "turns": 1},
+    {"kind": {"Regulator": {"part": "L7805"}}, "x": 500.0, "y": 160.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 220.0}}, "x": 620.0, "y": 220.0, "turns": 1},
+    {"kind": {"Led": {"colour": "Red"}}, "x": 620.0, "y": 300.0, "turns": 1},
+    {"kind": "Voltmeter", "x": 460.0, "y": 320.0, "turns": 1},
+    {"kind": "Voltmeter", "x": 720.0, "y": 260.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "p1"}]},
+    {"pins": [{"element": 1, "pin": "p2"}, {"element": 0, "pin": "-"}]},
+    {"pins": [{"element": 1, "pin": "s1"}, {"element": 2, "pin": "ac1"}]},
+    {"pins": [{"element": 1, "pin": "s2"}, {"element": 2, "pin": "ac2"}]},
+    {"pins": [{"element": 2, "pin": "+"}, {"element": 3, "pin": "+"}, {"element": 4, "pin": "in"}, {"element": 7, "pin": "+"}]},
+    {"pins": [{"element": 4, "pin": "out"}, {"element": 5, "pin": "a"}, {"element": 8, "pin": "+"}]},
+    {"pins": [{"element": 5, "pin": "b"}, {"element": 6, "pin": "anode"}]},
+    {"pins": [{"element": 2, "pin": "-"}, {"element": 3, "pin": "-"}, {"element": 4, "pin": "gnd"}, {"element": 6, "pin": "cathode"}, {"element": 7, "pin": "-"}, {"element": 8, "pin": "-"}]}
+  ]
+}

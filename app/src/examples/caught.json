@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 60.0, "y": 200.0, "turns": 1},
+    {"kind": {"SignalGenerator": {"waveform": "Square", "volts": 5.0, "hertz": 1.0}}, "x": 60.0, "y": 380.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 4700.0}}, "x": 180.0, "y": 380.0, "turns": 0},
+    {"kind": {"Bjt": {"polarity": "Npn"}}, "x": 300.0, "y": 380.0, "turns": 0},
+    {"kind": {"Relay": {"part": "V9"}}, "x": 300.0, "y": 200.0, "turns": 0},
+    {"kind": "Diode", "x": 200.0, "y": 200.0, "turns": 3},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 460.0, "y": 180.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Blue"}}, "x": 560.0, "y": 260.0, "turns": 1},
+    {"kind": "Voltmeter", "x": 420.0, "y": 400.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 4, "pin": "coil+"}, {"element": 5, "pin": "cathode"}, {"element": 4, "pin": "com"}]},
+    {"pins": [{"element": 4, "pin": "coil-"}, {"element": 5, "pin": "anode"}, {"element": 3, "pin": "c"}, {"element": 8, "pin": "+"}]},
+    {"pins": [{"element": 1, "pin": "+"}, {"element": 2, "pin": "a"}]},
+    {"pins": [{"element": 2, "pin": "b"}, {"element": 3, "pin": "b"}]},
+    {"pins": [{"element": 4, "pin": "no"}, {"element": 6, "pin": "a"}]},
+    {"pins": [{"element": 6, "pin": "b"}, {"element": 7, "pin": "anode"}]},
+    {"pins": [{"element": 7, "pin": "cathode"}, {"element": 3, "pin": "e"}, {"element": 1, "pin": "-"}, {"element": 0, "pin": "-"}, {"element": 8, "pin": "-"}]}
+  ]
+}

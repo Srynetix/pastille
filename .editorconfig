@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+#
+# What the files already do, written down so an editor does it too. Rust is
+# held to it by `cargo fmt` and the app by Prettier (ADR 0018); this is for
+# everything neither formats, and for the editor before either has run.
+
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.{ts,js,mjs,svelte,css,sh}]
+indent_style = tab
+
+[*.{rs,toml}]
+indent_style = space
+indent_size = 4
+
+[Justfile]
+indent_style = space
+indent_size = 4
+
+[*.{json,webmanifest,html,yaml,yml}]
+indent_style = space
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false

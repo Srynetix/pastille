@@ -1,0 +1,25 @@
+[workspace]
+members = ["crates/core", "crates/runner"]
+# The desktop shell is a workspace of its own (ADR 0013): `just ci` never waits
+# on a web view and a windowing stack to compile.
+exclude = ["desktop"]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT OR Apache-2.0"
+authors = ["Denis Bourge"]
+repository = "https://github.com/Srynetix/pastille"
+
+[workspace.dependencies]
+# Versioned as well as pathed: `cargo deny` treats a bare path dependency as a
+# wildcard, and the policy denies those (ADR 0001 keeps the tree accountable).
+pastille-core = { path = "crates/core", version = "0.1.0" }
+
+[profile.release]
+# The wasm bundle is on the cold-load path (M-21 budgets 3s), so size wins over
+# the last few percent of speed until a benchmark says otherwise (C-15).
+opt-level = "s"
+lto = true
+codegen-units = 1

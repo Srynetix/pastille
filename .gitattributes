@@ -1,0 +1,3 @@
+# The Uno's programs are kept byte for byte as avr-objcopy writes them
+# (CRLF): the examples carry them verbatim, and a test compares the two.
+programs/*.hex -text

@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+#
+# Pastille for Arch Linux and its derivatives (ADR 0022): the .deb that
+# scripts/linux/build.sh makes on Ubuntu 22.04 (glibc 2.35, which Arch's
+# newer one runs), repackaged by scripts/linux/arch/build.sh.
+pkgname=pastille
+pkgver=${PASTILLE_PKGVER:?}
+pkgrel=1
+pkgdesc='An electronics simulator for people who have never built a circuit'
+arch=(x86_64)
+url='https://github.com/Srynetix/pastille'
+license=('MIT OR Apache-2.0')
+# What the .deb depends on, by Arch's names.
+depends=(webkit2gtk-4.1 gtk3)
+# Built and stripped already; no -debug package of nothing.
+options=(!strip !debug)
+source=(pastille.deb LICENSE-MIT LICENSE-APACHE)
+sha256sums=(SKIP SKIP SKIP)
+
+package() {
+	# makepkg has unpacked the .deb, an ar archive, beside it: its files are
+	# in data.tar.*.
+	bsdtar -xf data.tar.* -C "$pkgdir"
+	# The licences, where Arch keeps them.
+	install -Dm644 LICENSE-MIT "$pkgdir/usr/share/licenses/$pkgname/LICENSE-MIT"
+	install -Dm644 LICENSE-APACHE "$pkgdir/usr/share/licenses/$pkgname/LICENSE-APACHE"
+}

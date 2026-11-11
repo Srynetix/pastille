@@ -1,0 +1,32 @@
+[package]
+name = "pastille-core"
+description = "Netlist, solver and linter for Pastille"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+# Not on crates.io: the crates are the app's, not a library for others.
+publish = false
+
+[lib]
+# cdylib for the wasm bundle, rlib so native tests and a future desktop build
+# can link the same crate (design doc 7.3).
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+wasm-bindgen = "0.2"
+# Turns a Rust panic into a readable message in the browser console instead
+# of `unreachable` (C-31). Installed in every build, release included: a
+# panic someone meets in the shipped app is the one most worth reading.
+console_error_panic_hook = "0.1"
+serde = { version = "1", features = ["derive"] }
+serde-wasm-bindgen = "0.6"
+slotmap = "1.1.1"
+tsify = { version = "0.5.8", features = ["js"] }
+
+# The browser parses and prints a saved circuit itself, so the wasm bundle
+# goes without (src/json.rs, M-21); everything native still reads and writes
+# JSON with it.
+[target.'cfg(not(target_arch = "wasm32"))'.dependencies]
+serde_json = "1"

@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"Capacitor": {"farads": 0.0047, "initial_volts": 9.0}}, "x": 120.0, "y": 200.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 220.0}}, "x": 240.0, "y": 120.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Red"}}, "x": 360.0, "y": 200.0, "turns": 1},
+    {"kind": "Voltmeter", "x": 40.0, "y": 200.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "a"}, {"element": 1, "pin": "a"}, {"element": 3, "pin": "+"}]},
+    {"pins": [{"element": 1, "pin": "b"}, {"element": 2, "pin": "anode"}]},
+    {"pins": [{"element": 2, "pin": "cathode"}, {"element": 0, "pin": "b"}, {"element": 3, "pin": "-"}]}
+  ]
+}

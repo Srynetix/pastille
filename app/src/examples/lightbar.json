@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 5.0, "series_ohms": 0.0}}, "x": 40.0, "y": 300.0, "turns": 1},
+    {"kind": "Lm3914", "x": 340.0, "y": 300.0, "turns": 0},
+    {"kind": "Bargraph", "x": 500.0, "y": 300.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 1200.0}}, "x": 220.0, "y": 420.0, "turns": 1},
+    {"kind": {"Ldr": {"light": 0.6}}, "x": 160.0, "y": 220.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 10000.0}}, "x": 160.0, "y": 360.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "V+"}, {"element": 1, "pin": "MODE"}, {"element": 2, "pin": "a1"}, {"element": 2, "pin": "a2"}, {"element": 2, "pin": "a3"}, {"element": 2, "pin": "a4"}, {"element": 2, "pin": "a5"}, {"element": 2, "pin": "a6"}, {"element": 2, "pin": "a7"}, {"element": 2, "pin": "a8"}, {"element": 2, "pin": "a9"}, {"element": 2, "pin": "a10"}]},
+    {"pins": [{"element": 0, "pin": "-"}, {"element": 1, "pin": "V-"}, {"element": 1, "pin": "RLO"}, {"element": 1, "pin": "REFADJ"}, {"element": 3, "pin": "b"}, {"element": 5, "pin": "b"}]},
+    {"pins": [{"element": 1, "pin": "REFOUT"}, {"element": 1, "pin": "RHI"}, {"element": 3, "pin": "a"}, {"element": 4, "pin": "a"}]},
+    {"pins": [{"element": 4, "pin": "b"}, {"element": 5, "pin": "a"}, {"element": 1, "pin": "SIG"}]},
+    {"pins": [{"element": 2, "pin": "k1"}, {"element": 1, "pin": "L1"}]},
+    {"pins": [{"element": 2, "pin": "k2"}, {"element": 1, "pin": "L2"}]},
+    {"pins": [{"element": 2, "pin": "k3"}, {"element": 1, "pin": "L3"}]},
+    {"pins": [{"element": 2, "pin": "k4"}, {"element": 1, "pin": "L4"}]},
+    {"pins": [{"element": 2, "pin": "k5"}, {"element": 1, "pin": "L5"}]},
+    {"pins": [{"element": 2, "pin": "k6"}, {"element": 1, "pin": "L6"}]},
+    {"pins": [{"element": 2, "pin": "k7"}, {"element": 1, "pin": "L7"}]},
+    {"pins": [{"element": 2, "pin": "k8"}, {"element": 1, "pin": "L8"}]},
+    {"pins": [{"element": 2, "pin": "k9"}, {"element": 1, "pin": "L9"}]},
+    {"pins": [{"element": 2, "pin": "k10"}, {"element": 1, "pin": "L10"}]}
+  ]
+}

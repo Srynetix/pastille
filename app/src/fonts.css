@@ -1,0 +1,14 @@
+/* SPDX-License-Identifier: MIT OR Apache-2.0 */
+
+/*
+ * The two typefaces the app ships with (ADR 0015), from their packages rather
+ * than a CDN: the app has to work with no network (C-27), and the service
+ * worker precaches whatever the build emits, these included.
+ *
+ * Recursive's `full` files because they are the only ones holding both the
+ * MONO axis (numbers) and the CASL axis (headings). Plex Sans upright only:
+ * nothing in the app is set in italic.
+ */
+
+@import '@fontsource-variable/recursive/full.css';
+@import '@fontsource-variable/ibm-plex-sans/wght.css';

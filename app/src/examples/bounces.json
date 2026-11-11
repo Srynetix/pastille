@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 5.0, "series_ohms": 0.0}}, "x": 40.0, "y": 300.0, "turns": 1},
+    {"kind": {"PushButton": {"closed": false, "bounces": true}}, "x": 160.0, "y": 160.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 10000.0}}, "x": 160.0, "y": 340.0, "turns": 1},
+    {"kind": "Counter", "x": 360.0, "y": 240.0, "turns": 0},
+    {"kind": {"SevenSegment": {"common": "Cathode"}}, "x": 660.0, "y": 240.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 500.0, "y": 150.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 500.0, "y": 170.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 500.0, "y": 190.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 500.0, "y": 210.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 500.0, "y": 230.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 500.0, "y": 250.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 500.0, "y": 270.0, "turns": 0}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "a"}, {"element": 3, "pin": "VDD"}, {"element": 3, "pin": "DEI"}]},
+    {"pins": [{"element": 1, "pin": "b"}, {"element": 2, "pin": "a"}, {"element": 3, "pin": "CLK"}]},
+    {"pins": [{"element": 0, "pin": "-"}, {"element": 2, "pin": "b"}, {"element": 3, "pin": "VSS"}, {"element": 3, "pin": "RST"}, {"element": 3, "pin": "INH"}, {"element": 4, "pin": "com"}]},
+    {"pins": [{"element": 3, "pin": "a"}, {"element": 5, "pin": "a"}], "waypoints": [{"x": 410.0, "y": 210.0}, {"x": 410.0, "y": 150.0}]},
+    {"pins": [{"element": 5, "pin": "b"}, {"element": 4, "pin": "a"}]},
+    {"pins": [{"element": 3, "pin": "b"}, {"element": 6, "pin": "a"}], "waypoints": [{"x": 420.0, "y": 220.0}, {"x": 420.0, "y": 170.0}]},
+    {"pins": [{"element": 6, "pin": "b"}, {"element": 4, "pin": "b"}]},
+    {"pins": [{"element": 3, "pin": "c"}, {"element": 7, "pin": "a"}], "waypoints": [{"x": 430.0, "y": 230.0}, {"x": 430.0, "y": 190.0}]},
+    {"pins": [{"element": 7, "pin": "b"}, {"element": 4, "pin": "c"}]},
+    {"pins": [{"element": 3, "pin": "d"}, {"element": 8, "pin": "a"}], "waypoints": [{"x": 440.0, "y": 240.0}, {"x": 440.0, "y": 210.0}]},
+    {"pins": [{"element": 8, "pin": "b"}, {"element": 4, "pin": "d"}]},
+    {"pins": [{"element": 3, "pin": "e"}, {"element": 9, "pin": "a"}], "waypoints": [{"x": 450.0, "y": 250.0}, {"x": 450.0, "y": 230.0}]},
+    {"pins": [{"element": 9, "pin": "b"}, {"element": 4, "pin": "e"}]},
+    {"pins": [{"element": 3, "pin": "f"}, {"element": 10, "pin": "a"}], "waypoints": [{"x": 460.0, "y": 260.0}, {"x": 460.0, "y": 250.0}]},
+    {"pins": [{"element": 10, "pin": "b"}, {"element": 4, "pin": "f"}]},
+    {"pins": [{"element": 3, "pin": "g"}, {"element": 11, "pin": "a"}]},
+    {"pins": [{"element": 11, "pin": "b"}, {"element": 4, "pin": "g"}]}
+  ]
+}

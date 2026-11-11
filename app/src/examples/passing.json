@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 5.0, "series_ohms": 0.0}}, "x": 40.0, "y": 240.0, "turns": 1},
+    {"kind": {"Pir": {"moving": false, "hold": 5.0, "retriggers": true}}, "x": 200.0, "y": 240.0, "turns": 0},
+    {"kind": {"Mosfet": {"channel": "N"}}, "x": 320.0, "y": 240.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 320.0, "y": 100.0, "turns": 1},
+    {"kind": {"Led": {"colour": "White"}}, "x": 320.0, "y": 180.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "VCC"}, {"element": 3, "pin": "a"}]},
+    {"pins": [{"element": 3, "pin": "b"}, {"element": 4, "pin": "anode"}]},
+    {"pins": [{"element": 4, "pin": "cathode"}, {"element": 2, "pin": "d"}]},
+    {"pins": [{"element": 1, "pin": "OUT"}, {"element": 2, "pin": "g"}]},
+    {"pins": [{"element": 0, "pin": "-"}, {"element": 1, "pin": "GND"}, {"element": 2, "pin": "s"}]}
+  ]
+}

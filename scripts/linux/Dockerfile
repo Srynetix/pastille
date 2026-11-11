@@ -1,0 +1,27 @@
+# SPDX-License-Identifier: MIT OR Apache-2.0
+#
+# The image scripts/linux.sh builds Pastille's Linux packages in (ADR 0022):
+# Ubuntu 22.04, so they run on any distribution as recent (glibc 2.35,
+# WebKitGTK 4.1), with Rust, Node and pnpm, and a virtual display to open the
+# built app once before it is handed out.
+FROM ubuntu:22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+# Tauri's Linux prerequisites, what bundling an AppImage runs, and Xvfb for
+# the smoke run.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+      build-essential ca-certificates curl wget file git rsync pkg-config xz-utils \
+      libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev libssl-dev \
+      xvfb xauth dbus-x11 \
+    && rm -rf /var/lib/apt/lists/*
+
+ARG NODE_VERSION=24.21.0
+RUN arch=$(dpkg --print-architecture | sed 's/amd64/x64/') \
+    && curl -fsSL "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${arch}.tar.xz" | tar -xJ -C /usr/local --strip-components=1 \
+    && npm install -g pnpm@10.11.1
+
+ENV RUSTUP_HOME=/usr/local/rustup PATH=/usr/local/cargo/bin:$PATH
+RUN curl -fsSL https://sh.rustup.rs | CARGO_HOME=/usr/local/cargo sh -s -- -y --profile minimal --default-toolchain stable
+
+# The build copies the sources, owned by someone else.
+RUN git config --system --add safe.directory '*'

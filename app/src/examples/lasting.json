@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"Cell": {"part": "Coin", "charge": 1.0}}, "x": 80.0, "y": 220.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 150.0}}, "x": 200.0, "y": 140.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Red"}}, "x": 300.0, "y": 220.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "a"}]},
+    {"pins": [{"element": 1, "pin": "b"}, {"element": 2, "pin": "anode"}]},
+    {"pins": [{"element": 2, "pin": "cathode"}, {"element": 0, "pin": "-"}]}
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 6.0, "series_ohms": 0.0}}, "x": 40.0, "y": 200.0, "turns": 1},
+    {"kind": {"DcSource": {"volts": 5.0, "series_ohms": 0.0}}, "x": 120.0, "y": 400.0, "turns": 1},
+    {"kind": {"Switch": {"closed": false}}, "x": 200.0, "y": 300.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 10000.0}}, "x": 200.0, "y": 420.0, "turns": 1},
+    {"kind": "Motor", "x": 360.0, "y": 140.0, "turns": 1},
+    {"kind": "Diode", "x": 420.0, "y": 140.0, "turns": 3},
+    {"kind": {"Mosfet": {"channel": "Power"}}, "x": 360.0, "y": 280.0, "turns": 0},
+    {"kind": "Motor", "x": 560.0, "y": 140.0, "turns": 1},
+    {"kind": "Diode", "x": 620.0, "y": 140.0, "turns": 3},
+    {"kind": {"Mosfet": {"channel": "N"}}, "x": 560.0, "y": 280.0, "turns": 0}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 4, "pin": "a"}, {"element": 5, "pin": "cathode"}, {"element": 7, "pin": "a"}, {"element": 8, "pin": "cathode"}]},
+    {"pins": [{"element": 4, "pin": "b"}, {"element": 5, "pin": "anode"}, {"element": 6, "pin": "d"}]},
+    {"pins": [{"element": 7, "pin": "b"}, {"element": 8, "pin": "anode"}, {"element": 9, "pin": "d"}]},
+    {"pins": [{"element": 1, "pin": "+"}, {"element": 2, "pin": "a"}]},
+    {"pins": [{"element": 2, "pin": "b"}, {"element": 3, "pin": "a"}, {"element": 6, "pin": "g"}, {"element": 9, "pin": "g"}]},
+    {"pins": [{"element": 0, "pin": "-"}, {"element": 1, "pin": "-"}, {"element": 3, "pin": "b"}, {"element": 6, "pin": "s"}, {"element": 9, "pin": "s"}]}
+  ]
+}

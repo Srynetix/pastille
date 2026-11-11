@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "room_celsius": 25.0,
+  "elements": [
+    { "kind": { "DcSource": { "volts": 12.0, "series_ohms": 0.0 } }, "x": 120.0, "y": 200.0, "turns": 0 },
+    { "kind": { "Regulator": { "part": "L7805" } }, "x": 240.0, "y": 120.0, "turns": 0 },
+    { "kind": "Voltmeter", "x": 360.0, "y": 200.0, "turns": 1 },
+    { "kind": "Motor", "x": 480.0, "y": 200.0, "turns": 1 }
+  ],
+  "nets": [
+    { "pins": [{ "element": 0, "pin": "+" }, { "element": 1, "pin": "in" }] },
+    { "pins": [{ "element": 1, "pin": "out" }, { "element": 2, "pin": "+" }, { "element": 3, "pin": "a" }] },
+    { "pins": [{ "element": 3, "pin": "b" }, { "element": 2, "pin": "-" }, { "element": 1, "pin": "gnd" }, { "element": 0, "pin": "-" }] }
+  ]
+}

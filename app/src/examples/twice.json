@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 80.0, "y": 260.0, "turns": 0},
+    {"kind": {"Potentiometer": {"ohms": 10000.0, "wiper": 0.78}}, "x": 200.0, "y": 260.0, "turns": 1},
+    {"kind": "OpAmp", "x": 380.0, "y": 260.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 10000.0}}, "x": 320.0, "y": 400.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 10000.0}}, "x": 440.0, "y": 160.0, "turns": 0},
+    {"kind": "Voltmeter", "x": 280.0, "y": 340.0, "turns": 1},
+    {"kind": "Voltmeter", "x": 520.0, "y": 340.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "a"}, {"element": 2, "pin": "V+"}]},
+    {"pins": [{"element": 1, "pin": "wiper"}, {"element": 2, "pin": "in+"}, {"element": 5, "pin": "+"}]},
+    {"pins": [{"element": 2, "pin": "in-"}, {"element": 3, "pin": "a"}, {"element": 4, "pin": "a"}]},
+    {"pins": [{"element": 4, "pin": "b"}, {"element": 2, "pin": "out"}, {"element": 6, "pin": "+"}]},
+    {"pins": [{"element": 0, "pin": "-"}, {"element": 1, "pin": "b"}, {"element": 3, "pin": "b"}, {"element": 2, "pin": "V-"}, {"element": 5, "pin": "-"}, {"element": 6, "pin": "-"}]}
+  ]
+}

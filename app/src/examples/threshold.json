@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    { "kind": { "DcSource": { "volts": 9.0, "series_ohms": 0.0 } }, "x": 100.0, "y": 260.0, "turns": 0 },
+    { "kind": { "Potentiometer": { "ohms": 10000.0, "wiper": 0.3 } }, "x": 220.0, "y": 300.0, "turns": 1 },
+    { "kind": { "Resistor": { "ohms": 10000.0 } }, "x": 300.0, "y": 160.0, "turns": 1 },
+    { "kind": { "Resistor": { "ohms": 12000.0 } }, "x": 300.0, "y": 380.0, "turns": 1 },
+    { "kind": "Comparator", "x": 400.0, "y": 260.0, "turns": 0 },
+    { "kind": { "Resistor": { "ohms": 1000.0 } }, "x": 500.0, "y": 140.0, "turns": 1 },
+    { "kind": { "Led": { "colour": "Red" } }, "x": 500.0, "y": 220.0, "turns": 1 }
+  ],
+  "nets": [
+    { "pins": [{ "element": 0, "pin": "+" }, { "element": 1, "pin": "a" }, { "element": 2, "pin": "a" }, { "element": 5, "pin": "a" }, { "element": 4, "pin": "V+" }] },
+    { "pins": [{ "element": 1, "pin": "wiper" }, { "element": 4, "pin": "in+" }] },
+    { "pins": [{ "element": 2, "pin": "b" }, { "element": 3, "pin": "a" }, { "element": 4, "pin": "in-" }] },
+    { "pins": [{ "element": 5, "pin": "b" }, { "element": 6, "pin": "anode" }] },
+    { "pins": [{ "element": 6, "pin": "cathode" }, { "element": 4, "pin": "out" }] },
+    { "pins": [{ "element": 0, "pin": "-" }, { "element": 1, "pin": "b" }, { "element": 3, "pin": "b" }, { "element": 4, "pin": "V-" }] }
+  ]
+}

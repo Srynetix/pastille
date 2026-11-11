@@ -1,0 +1,17 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 120.0, "y": 240.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 470.0}}, "x": 260.0, "y": 120.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Red"}}, "x": 400.0, "y": 120.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 470.0}}, "x": 260.0, "y": 280.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Green"}}, "x": 400.0, "y": 280.0, "turns": 0}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "a"}, {"element": 3, "pin": "a"}]},
+    {"pins": [{"element": 1, "pin": "b"}, {"element": 2, "pin": "anode"}]},
+    {"pins": [{"element": 3, "pin": "b"}, {"element": 4, "pin": "anode"}]},
+    {"pins": [{"element": 2, "pin": "cathode"}, {"element": 4, "pin": "cathode"}, {"element": 0, "pin": "-"}]}
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 40.0, "y": 240.0, "turns": 1},
+    {"kind": "Diode", "x": 160.0, "y": 160.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 470.0}}, "x": 240.0, "y": 240.0, "turns": 1},
+    {"kind": "Voltmeter", "x": 300.0, "y": 240.0, "turns": 1},
+    {"kind": "Schottky", "x": 400.0, "y": 160.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 470.0}}, "x": 480.0, "y": 240.0, "turns": 1},
+    {"kind": "Voltmeter", "x": 540.0, "y": 240.0, "turns": 1}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "anode"}, {"element": 4, "pin": "anode"}]},
+    {"pins": [{"element": 1, "pin": "cathode"}, {"element": 2, "pin": "a"}, {"element": 3, "pin": "+"}]},
+    {"pins": [{"element": 4, "pin": "cathode"}, {"element": 5, "pin": "a"}, {"element": 6, "pin": "+"}]},
+    {"pins": [{"element": 0, "pin": "-"}, {"element": 2, "pin": "b"}, {"element": 3, "pin": "-"}, {"element": 5, "pin": "b"}, {"element": 6, "pin": "-"}]}
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 120.0, "y": 240.0, "turns": 0},
+    {"kind": {"SevenSegment": {"common": "Cathode"}}, "x": 400.0, "y": 240.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 470.0}}, "x": 400.0, "y": 160.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 470.0}}, "x": 460.0, "y": 160.0, "turns": 1},
+    {"kind": {"Resistor": {"ohms": 470.0}}, "x": 500.0, "y": 250.0, "turns": 0}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 2, "pin": "a"}, {"element": 3, "pin": "a"}, {"element": 4, "pin": "b"}]},
+    {"pins": [{"element": 2, "pin": "b"}, {"element": 1, "pin": "a"}]},
+    {"pins": [{"element": 3, "pin": "b"}, {"element": 1, "pin": "b"}]},
+    {"pins": [{"element": 4, "pin": "a"}, {"element": 1, "pin": "c"}]},
+    {"pins": [{"element": 1, "pin": "com"}, {"element": 0, "pin": "-"}]}
+  ]
+}

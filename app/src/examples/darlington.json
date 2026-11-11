@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 40.0, "y": 260.0, "turns": 1},
+    {"kind": {"PushButton": {"closed": false}}, "x": 140.0, "y": 200.0, "turns": 1},
+    {"kind": "Ammeter", "x": 240.0, "y": 280.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 10000.0}}, "x": 160.0, "y": 280.0, "turns": 0},
+    {"kind": {"Bjt": {"polarity": "Darlington"}}, "x": 360.0, "y": 280.0, "turns": 0},
+    {"kind": "Ammeter", "x": 360.0, "y": 200.0, "turns": 1},
+    {"kind": "Motor", "x": 360.0, "y": 100.0, "turns": 1},
+    {"kind": "Diode", "x": 420.0, "y": 100.0, "turns": 3}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "a"}, {"element": 6, "pin": "a"}, {"element": 7, "pin": "cathode"}]},
+    {"pins": [{"element": 1, "pin": "b"}, {"element": 3, "pin": "a"}]},
+    {"pins": [{"element": 3, "pin": "b"}, {"element": 2, "pin": "+"}]},
+    {"pins": [{"element": 2, "pin": "-"}, {"element": 4, "pin": "b"}]},
+    {"pins": [{"element": 6, "pin": "b"}, {"element": 7, "pin": "anode"}, {"element": 5, "pin": "+"}]},
+    {"pins": [{"element": 5, "pin": "-"}, {"element": 4, "pin": "c"}]},
+    {"pins": [{"element": 4, "pin": "e"}, {"element": 0, "pin": "-"}]}
+  ]
+}

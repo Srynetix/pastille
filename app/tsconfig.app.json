@@ -1,0 +1,22 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "es2023",
+    "module": "esnext",
+    "types": ["svelte", "vite/client"],
+    "allowArbitraryExtensions": true,
+    "noEmit": true,
+    /**
+     * Our own sources are TypeScript and Svelte. The only JavaScript in the
+     * program is the wasm-bindgen glue under src/lib/wasm, which is generated,
+     * untyped by design, and reached through its own .d.ts — checking it just
+     * fails the build on code we do not own. Turn checkJs back on if
+     * hand-written .js ever appears.
+     */
+    "allowJs": true,
+    "checkJs": false,
+    "moduleDetection": "force"
+  },
+  "include": ["src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
+}

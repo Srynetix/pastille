@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"DcSource": {"volts": 9.0, "series_ohms": 0.0}}, "x": 100.0, "y": 240.0, "turns": 0},
+    {"kind": "Diode", "x": 240.0, "y": 120.0, "turns": 0},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 360.0, "y": 120.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Red"}}, "x": 480.0, "y": 120.0, "turns": 0},
+    {"kind": "Diode", "x": 240.0, "y": 300.0, "turns": 2},
+    {"kind": {"Resistor": {"ohms": 330.0}}, "x": 360.0, "y": 300.0, "turns": 0},
+    {"kind": {"Led": {"colour": "Green"}}, "x": 480.0, "y": 300.0, "turns": 0}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "anode"}, {"element": 4, "pin": "cathode"}]},
+    {"pins": [{"element": 1, "pin": "cathode"}, {"element": 2, "pin": "a"}]},
+    {"pins": [{"element": 2, "pin": "b"}, {"element": 3, "pin": "anode"}]},
+    {"pins": [{"element": 4, "pin": "anode"}, {"element": 5, "pin": "a"}]},
+    {"pins": [{"element": 5, "pin": "b"}, {"element": 6, "pin": "anode"}]},
+    {"pins": [{"element": 3, "pin": "cathode"}, {"element": 6, "pin": "cathode"}, {"element": 0, "pin": "-"}]}
+  ]
+}

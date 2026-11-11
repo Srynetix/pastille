@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "note": "Educational simulation — not accurate enough to design from",
+  "elements": [
+    {"kind": {"SignalGenerator": {"waveform": "Square", "volts": 4.0, "hertz": 32.0}}, "x": 300.0, "y": 240.0, "turns": 3},
+    {"kind": "LcdDigit", "x": 200.0, "y": 240.0, "turns": 0},
+    {"kind": {"SignalGenerator": {"waveform": "Sine", "volts": 4.0, "hertz": 32.0}}, "x": 520.0, "y": 240.0, "turns": 3},
+    {"kind": "LcdDigit", "x": 420.0, "y": 240.0, "turns": 0}
+  ],
+  "nets": [
+    {"pins": [{"element": 0, "pin": "+"}, {"element": 1, "pin": "c"}, {"element": 1, "pin": "b"}]},
+    {"pins": [{"element": 0, "pin": "-"}, {"element": 1, "pin": "com"}]},
+    {"pins": [{"element": 2, "pin": "+"}, {"element": 3, "pin": "c"}, {"element": 3, "pin": "b"}]},
+    {"pins": [{"element": 2, "pin": "-"}, {"element": 3, "pin": "com"}]}
+  ]
+}
