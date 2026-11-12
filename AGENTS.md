@@ -13,6 +13,8 @@ this file says only what is particular to Pastille.
   (`just boundary`); `app/src/examples/` holds the example circuits.
 - `desktop/` — the Tauri shell, a Cargo workspace of its own; `just desktop-check` is its gate.
 - `programs/` — the Uno's example programs, built from their sketches (`just programs`).
+- `docs/dev/` — how the code is built: architecture, patterns, building; read it before changing
+  the structure.
 - `docs/adrs/` — every technical decision, indexed in its `README.md`.
 - `scripts/` — checks, packaging and release; called by the justfile, not by hand.
 
@@ -36,7 +38,10 @@ just ci       # the gate: run it before saying a change is done
 - The change comes with its tests; a fixed bug with a test that fails without the fix.
 - A decision taken on the way is recorded in `docs/adrs/` (copy the latest record's shape, add
   it to the index). A change that goes against a record comes with a new record.
-- The README and `docs/` say what is now true.
+- The code follows [SUITE.md § 12](https://github.com/Srynetix/p-suite/blob/main/SUITE.md#12-code):
+  a person could take it over by hand.
+- The README and `docs/dev/` say what is now true: a new module, flow or pattern is documented
+  in the same commit.
 - The commit follows Conventional Commits (`feat(core): …`, `fix(app): …`); its subject is
   written for a user reading the release notes. `just check-commits` checks it.
 
@@ -44,6 +49,13 @@ just ci       # the gate: run it before saying a change is done
 
 - Read the ADR behind a part of the code before proposing to change it: most of what looks odd
   was chosen.
+- **The core decides, the app words and draws.** `crates/core` knows no canvas, DOM or file
+  system; a physical rule found in `app` moves to the core, with its test. The app keeps no copy
+  of the circuit ([docs/dev/patterns.md](docs/dev/patterns.md)).
+- Comments say why, never what or when: no comment that repeats the code, narrates the change
+  or speaks to a reviewer; no code commented out; no `TODO` without an issue. Do not add ticket
+  ids (`C-24`, `M-21`) to new comments; drop them from a comment you touch when the sentence
+  stands without them. An explanation longer than a few lines goes in `docs/dev/`.
 - Fix the cause, not the check: never weaken a test, a lint or a gate to make it pass.
 - **The benchmark in `just ci` needs mains power.** It measures the solver's cost a frame
   against a baseline recorded on this Mac, and fails both ways. Before believing a red run,

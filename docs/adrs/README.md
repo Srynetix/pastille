@@ -3,7 +3,8 @@
 Every technical decision Pastille has taken so far, one record each, numbered in the order
 they were taken. Each says what was decided, what else was considered and why it lost, and
 what follows from it. Read the one behind a part of the code before proposing to change it:
-most of what looks odd here was chosen, and the record says against what.
+most of what looks odd here was chosen, and the record says against what. How the code stands
+today, as opposed to why, is in [`docs/dev`](../dev/README.md).
 
 A record is not rewritten when things move on. A later one revises it and says so in its
 status, or the record gains a dated *Updated* note. The status line is where to look first.

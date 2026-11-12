@@ -129,35 +129,15 @@ just dev-lan  # the same, reachable from a phone on your network
 just desktop  # the desktop app for this machine, in desktop/target/release/bundle
 ```
 
-<details>
-<summary><b>Development</b></summary>
+How the code is laid out, the patterns it follows and how to release it are in
+[docs/dev](docs/dev/README.md).
 
-Recipes live in the `justfile`; `just` on its own lists them.
+## Documentation
 
-```bash
-just ci       # the gate: formatting, lints, licences, every test, a cold load and an offline run
-just test     # the core's tests and the app's, in a real browser
-just run app/src/examples/milestone.json   # a saved circuit, simulated without a browser
-just desktop-universal   # one Mac app for Apple Silicon and Intel
-just windows  # the Windows installer, from the Mac: scripts/windows.sh --help for its tools
-just linux    # the Linux .deb and AppImage, from the Mac, in Docker; --bundles deb,appimage,pacman adds Arch's
-just pages    # the web app as GitHub Pages serves it, checked offline
-just release --dry-run   # what a release would publish: just release --help
-```
-
-There is no hosted pipeline: `just ci` passing is what says a change is good. Run it on mains
-power, as its benchmarks are calibrated to a machine that is not throttling.
-
-| Part | Role |
-|---|---|
-| `crates/core` | The simulator: netlist, solver, part models, the checks, the AVR, the exports. Rust, compiled to WebAssembly for the app |
-| `crates/runner` | `pastille-run`, a saved circuit simulated from the command line |
-| `app` | The interface, in Svelte 5 and TypeScript |
-| `desktop` | The desktop app, a Tauri shell around the same build, for macOS, Windows and Linux |
-| `programs` | The Uno's example sketches and the programs built from them |
-| [`docs/adrs`](docs/adrs/README.md) | Every technical decision so far, and why |
-
-</details>
+- [Developing Pastille](docs/dev/README.md): the architecture, the patterns, building and
+  releasing.
+- [Decisions](docs/adrs/README.md): every technical decision so far, and why.
+- [AGENTS.md](AGENTS.md): how an AI coding agent works on Pastille.
 
 ## How it was made
 
