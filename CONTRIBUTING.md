@@ -65,6 +65,9 @@ laptop on battery may fail them while the code is fine.
 
 ### Where things are decided
 
+How the code is built (its layers, the patterns it follows, how to add a part or a rule) is in
+[`docs/dev`](docs/dev/README.md): read it before a first change.
+
 Every technical decision is recorded in [`docs/adrs`](docs/adrs/README.md), with what was
 considered and why it lost. Much of what looks odd here was chosen: read the record behind a
 part of the code before proposing to change it. A change that goes against a record comes
@@ -73,7 +76,9 @@ with a new one.
 Some common changes:
 
 - **A new part:** its electrical facts in `crates/core`, its symbol and words in `app`, as
-  [ADR 0008](docs/adrs/0008-component-registry.md) describes. Add an example that uses it.
+  [ADR 0008](docs/adrs/0008-component-registry.md) describes, step by step in
+  [*A part in three places*](docs/dev/patterns.md#a-part-in-three-places). Add an example that
+  uses it.
 - **A new example:** a circuit saved from the app into `app/src/examples/`, and an entry in
   `app/src/lib/examples.ts` that says what to look at.
 
