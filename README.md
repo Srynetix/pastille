@@ -141,7 +141,7 @@ How the code is laid out, the patterns it follows and how to release it are in
 
 ## How it was made
 
-Pastille was designed, tested and used every day by its author, with the help of an AI coding
+Pastille was designed, tested and used by its author, with the help of an AI coding
 agent ([Claude Code](https://claude.com/claude-code)). The agent wrote most of the code and the
 tests under the author's direction; the design decisions, the testing on real machines and the
 choice of what ships remain the author's. It is part of the
