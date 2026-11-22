@@ -40,7 +40,7 @@ offline run. There is no hosted pipeline ([ADR 0014](../adrs/0014-the-gate-stays
 recorded on the author's Mac, and fails both ways. Before believing a red run, check
 `pmset -g batt` and `pmset -g | grep lowpowermode`, and compare against `main`.
 
-The desktop shell has its own gate, `just desktop-check`: its lints, its dependency policy, its
+The desktop shell has its own gate, `just desktop-check`: its lints, its tests, its dependency policy, its
 third-party notice, and one run of the bundled app that must simulate a second of a circuit
 before it exits.
 
@@ -65,6 +65,10 @@ a build made and checked here, under `/pastille/`
 `programs/` holds the example sketches (`*.ino`) beside the Intel HEX the app bundles.
 `just programs` rebuilds them with `programs/build.sh`, against Arduino's AVR core. The HEX files carry Arduino's
 core, under LGPL-2.1: `programs/NOTICE.md` says which version and where its source is.
+
+The desktop app compiles a user's sketch the same way, through the machine's `arduino-cli`
+(`desktop/src/sketch.rs`, [ADR 0024](../adrs/0024-sketches-compile-on-the-desktop.md)); its
+tests compile `programs/Blink.ino` with it where it is installed.
 
 ## Releasing
 

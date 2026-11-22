@@ -27,6 +27,7 @@ function resistor(id = 'r1'): ElementView {
 		choices: [],
 		basedOn: undefined,
 		program: undefined,
+		sketch: undefined,
 	}
 }
 

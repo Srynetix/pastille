@@ -203,11 +203,11 @@ desktop: build
 desktop-universal: build
     pnpm --filter desktop tauri build --target universal-apple-darwin
 
-# Lint, its dependency policy, its notice, and one run of the bundled app that
+# Lint, its tests, its dependency policy, its notice, and one run of the bundled app that
 # has to simulate a second of a circuit before it exits.
 # The desktop shell's gate.
 desktop-check: build
-    cd desktop && cargo fmt --check && cargo clippy -- -D warnings && cargo deny check
+    cd desktop && cargo fmt --check && cargo clippy --all-targets -- -D warnings && cargo test && cargo deny check
     node scripts/check-third-party.mjs
     pnpm --filter desktop tauri build --bundles app
     just desktop-smoke

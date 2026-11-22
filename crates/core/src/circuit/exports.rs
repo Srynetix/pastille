@@ -256,15 +256,16 @@ impl Circuit {
     pub(crate) fn load_program(
         &mut self,
         id: ElementId,
-        name: &str,
-        hex: &str,
+        saved: &crate::document::SavedProgram,
     ) -> Result<(), CircuitError> {
-        let program = crate::netlist::Program::from_hex(name, hex).map_err(|error| {
+        let name = &saved.name;
+        let mut program = crate::netlist::Program::from_hex(name, &saved.hex).map_err(|error| {
             CircuitError::Refused(format!(
                 "This file cannot be opened: the program {name} in it is not one the Uno can \
                  run ({error})."
             ))
         })?;
+        program.sketch = saved.sketch.clone();
         self.netlist.set_program(id, std::sync::Arc::new(program));
         Ok(())
     }

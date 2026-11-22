@@ -29,6 +29,10 @@
 		onprogram,
 		onbuiltin,
 		onreset,
+		oncompile,
+		onopensketch,
+		compiling = false,
+		compileError,
 		onwiper,
 		onchoice,
 		room,
@@ -75,6 +79,18 @@
 		onbuiltin?: (id: string, name: string) => void
 		/** An Uno's reset button pressed: its program starts again (A-03). */
 		onreset?: (id: string) => void
+		/**
+		 * An Uno's sketch to compile and put on it (ADR 0024). Given only
+		 * where there is a compiler, the desktop shell: without it there is
+		 * no editor.
+		 */
+		oncompile?: (id: string, name: string, sketch: string) => void
+		/** A sketch from a file, for the editor: its name and text. */
+		onopensketch?: () => Promise<{ name: string; text: string } | undefined>
+		/** Whether a sketch is being compiled. */
+		compiling?: boolean
+		/** What the compiler said about the selected Uno's last sketch. */
+		compileError?: string
 		/**
 		 * A wiper was moved (C-20).
 		 *
@@ -123,6 +139,36 @@
 		onturn?: () => void
 		ondelete?: () => void
 	} = $props()
+
+	/** What the editor starts from with nothing to show: the least a sketch is. */
+	const EMPTY_SKETCH = 'void setup() {\n  pinMode(13, OUTPUT);\n}\n\nvoid loop() {\n}\n'
+
+	/** The sketch in the editor, and the name it compiles as. */
+	let draft = $state('')
+	let draftName = $state('sketch')
+
+	// What the editor shows is what the Uno runs, again whenever that
+	// changes: another Uno, another program. A string, so a new view of the
+	// same program leaves what is being typed alone.
+	const running = $derived(
+		selection?.kind === 'Uno'
+			? [selection.id, selection.program ?? '', selection.sketch ?? ''].join('\u0000')
+			: '',
+	)
+	$effect(() => {
+		if (!running || !selection) return
+		const program = selection.program
+		draft =
+			selection.sketch ?? PROGRAMS.find((entry) => entry.name === program)?.sketch ?? EMPTY_SKETCH
+		draftName = program?.replace(/\.(hex|ino)$/i, '') || 'sketch'
+	})
+
+	async function openSketch() {
+		const chosen = await onopensketch?.()
+		if (!chosen) return
+		draft = chosen.text
+		draftName = chosen.name.replace(/\.ino$/i, '')
+	}
 
 	function commitRoom(event: Event & { currentTarget: HTMLInputElement }) {
 		onroom?.(event.currentTarget.value)
@@ -529,6 +575,35 @@
 				Or your own: in the Arduino IDE, Sketch → Export Compiled Binary, then the .hex without the
 				bootloader.
 			</p>
+			{#if oncompile}
+				<!-- ADR 0024. The sketch it runs, to change and compile again
+				     with the machine's arduino-cli. -->
+				<label class="stacked">
+					<span class="field-name">Its sketch, {draftName}.ino</span>
+					<textarea
+						class="sketch"
+						aria-label="Its sketch"
+						rows="12"
+						spellcheck="false"
+						bind:value={draft}></textarea>
+				</label>
+				<p class="bill">
+					<button
+						type="button"
+						disabled={compiling}
+						onclick={() => selection && oncompile(selection.id, draftName, draft)}
+						>{compiling ? 'Compiling…' : 'Compile and run'}</button
+					>
+					{#if onopensketch}
+						<button type="button" onclick={() => void openSketch()}>Open a .ino…</button>
+					{/if}
+				</p>
+				{#if compileError}
+					<pre class="compiler" role="alert">{compileError}</pre>
+				{/if}
+			{:else}
+				<p class="hint">In the desktop app, you can write a sketch here and compile it.</p>
+			{/if}
 		{/if}
 
 		{#if selection.kind === 'Fuse' && selection.blown}
@@ -1047,6 +1122,28 @@
 		font: inherit;
 		font-size: 0.8125rem;
 		line-height: 1.4;
+	}
+
+	textarea.sketch {
+		font-family: var(--font-mono);
+		font-variation-settings: var(--mono-axes);
+		font-size: 0.75rem;
+		white-space: pre;
+		tab-size: 2;
+	}
+
+	.compiler {
+		font-family: var(--font-mono);
+		font-variation-settings: var(--mono-axes);
+		font-size: 0.75rem;
+		color: var(--failed);
+		background: var(--sunken);
+		border-radius: 4px;
+		padding: 0.375rem 0.5rem;
+		margin: 0.5rem 0 0;
+		max-height: 12rem;
+		overflow: auto;
+		white-space: pre-wrap;
 	}
 
 	select {

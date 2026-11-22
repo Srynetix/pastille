@@ -42,3 +42,25 @@ describe('a link to a page of its own', () => {
 		expect(invoke).toHaveBeenCalledWith('open_link', { url: anchor.href })
 	})
 })
+
+describe('an Uno’s sketch (ADR 0024)', () => {
+	it('is compiled by the shell, which answers the HEX', async () => {
+		const { compileOnDesktop } = await load()
+		invoke.mockResolvedValue(':00000001FF\n')
+
+		await expect(compileOnDesktop('Blink', 'void loop() {}')).resolves.toBe(':00000001FF\n')
+		expect(invoke).toHaveBeenCalledWith('compile_sketch', {
+			name: 'Blink',
+			sketch: 'void loop() {}',
+		})
+	})
+
+	it('rejects with what the compiler said', async () => {
+		const { compileOnDesktop } = await load()
+		invoke.mockRejectedValue("Blink/Blink.ino:1:1: error: 'x' was not declared")
+
+		await expect(compileOnDesktop('Blink', 'x')).rejects.toBe(
+			"Blink/Blink.ino:1:1: error: 'x' was not declared",
+		)
+	})
+})

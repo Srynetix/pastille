@@ -24,6 +24,7 @@ came from; every record is meant to read without them.
 | [11](0011-signal-generator.md) | A source that changes with time is a part of its own, the signal generator, beside the battery. | Yes |
 | [12](0012-the-555.md) | The 555 carries one bit of state between steps and shows six of its eight pins. | Yes |
 | [17](0017-the-avr-in-the-core.md) | The Arduino's AVR is avr8js ported to Rust, running inside the core. | Yes |
+| [24](0024-sketches-compile-on-the-desktop.md) | A sketch is compiled by the desktop app, with the machine's own arduino-cli, and saved beside its HEX. | Yes |
 
 ## The core and the app
 

@@ -47,6 +47,9 @@ pub struct ElementView {
     /// The program a microcontroller runs, by name (A-03); absent for one
     /// with none, and for anything that is not a microcontroller.
     pub program: Option<String>,
+    /// The sketch that program was compiled from, absent for a program
+    /// loaded as a HEX and for anything that runs none.
+    pub sketch: Option<String>,
     /// The alternatives it could be set to instead, empty when there are none.
     ///
     /// Carried per element rather than looked up per kind, so whatever draws a

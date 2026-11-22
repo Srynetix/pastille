@@ -24,3 +24,12 @@ describe('the programs an Uno comes with (A-07)', () => {
 		}
 	})
 })
+
+describe('the sketches they come with (ADR 0024)', () => {
+	it('each is the sketch its program is built from', () => {
+		for (const program of PROGRAMS) {
+			expect(program.sketch, program.name).toMatch(/void setup\(\)/)
+			expect(program.sketch, program.name).toMatch(/void loop\(\)/)
+		}
+	})
+})

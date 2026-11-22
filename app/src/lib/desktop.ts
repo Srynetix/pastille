@@ -3,12 +3,13 @@
 // The app, when it is running in the desktop shell rather than a browser.
 //
 // C-68, ADR 0013. The shell shows this same build, so almost nothing needs to
-// know which one it is in. Three things do. A browser saves a file by
+// know which one it is in. Four things do. A browser saves a file by
 // following a download link and the system web view on macOS ignores those, so
 // saving and opening go through the shell's own dialogs. A link that asks for a
 // tab of its own opens nothing either, so it goes to the system's browser. And
 // the offline service worker has nothing to do in a window whose files are
-// already on disk.
+// already on disk. And only the shell can compile an Uno's sketch, with the
+// machine's own arduino-cli (ADR 0024).
 //
 // Everything else — the canvas, the core, autosave — is the browser's code,
 // unchanged, and the browser build takes none of these paths.
@@ -36,6 +37,20 @@ export async function openOnDesktop(): Promise<string | undefined> {
 export async function openProgramOnDesktop(): Promise<{ name: string; text: string } | undefined> {
 	const chosen = await invoke<[string, string] | null>('open_program')
 	return chosen ? { name: chosen[0], text: chosen[1] } : undefined
+}
+
+/** An Uno's sketch, chosen in the shell's own dialog: its name and text. */
+export async function openSketchOnDesktop(): Promise<{ name: string; text: string } | undefined> {
+	const chosen = await invoke<[string, string] | null>('open_sketch')
+	return chosen ? { name: chosen[0], text: chosen[1] } : undefined
+}
+
+/**
+ * Compiles an Uno's sketch with the machine's arduino-cli: the Intel HEX the
+ * core loads. Rejects with what the compiler said, or with how to install it.
+ */
+export function compileOnDesktop(name: string, sketch: string): Promise<string> {
+	return invoke<string>('compile_sketch', { name, sketch })
 }
 
 /**

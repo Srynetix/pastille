@@ -122,7 +122,7 @@ Arduino's own frequencies.
    latch is.
 4. **A frame's cost now includes the program.** The pace (C-83) measures it
    with the rest, and C-15's gate gets an MCU circuit once there is one.
-5. **Compiling a sketch is not decided here** — A-07 to A-09 are.
+5. **Compiling a sketch is not decided here** — A-07 to A-09 are. *Updated 2026-11-22:* ADR 0024 decides it.
 6. **Revisit** if the port's cost outgrows its benefit, or if a second
    emulator (ESP32, Phase 3 later) needs the external-engine coupling the
    rejected option describes; Renode (Phase 4) will need it regardless, with a

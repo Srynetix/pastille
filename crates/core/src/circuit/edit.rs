@@ -235,6 +235,18 @@ impl Circuit {
 
     /// [`Circuit::set_program`] without the boundary's error type.
     pub fn try_set_program(&mut self, id: &str, name: &str, hex: &str) -> Result<(), CircuitError> {
+        self.try_set_compiled_program(id, name, hex, None)
+    }
+
+    /// [`Circuit::set_compiled_program`] without the boundary's error type:
+    /// a program, with the sketch it was compiled from when there is one.
+    pub fn try_set_compiled_program(
+        &mut self,
+        id: &str,
+        name: &str,
+        hex: &str,
+        sketch: Option<&str>,
+    ) -> Result<(), CircuitError> {
         let id = decode(id)?;
         let kind = self
             .netlist
@@ -244,13 +256,14 @@ impl Circuit {
         if !matches!(kind, ElementKind::Uno) {
             return Err(CircuitError::NotEditable(kind.name().to_string()));
         }
-        let program = crate::netlist::Program::from_hex(name, hex).map_err(|error| {
+        let mut program = crate::netlist::Program::from_hex(name, hex).map_err(|error| {
             CircuitError::Refused(format!(
                 "{name} is not a program the Uno can run: {error}. Export it from the Arduino \
                  IDE with Sketch → Export Compiled Binary, and load the .hex without the \
                  bootloader."
             ))
         })?;
+        program.sketch = sketch.map(str::to_string);
         self.remember();
         self.netlist.set_program(id, std::sync::Arc::new(program));
         self.revision += 1;
@@ -296,6 +309,7 @@ impl Circuit {
         let again = crate::netlist::Program {
             name: program.name.clone(),
             hex: program.hex.clone(),
+            sketch: program.sketch.clone(),
             words: program.words.clone(),
         };
         self.netlist.set_program(id, std::sync::Arc::new(again));
