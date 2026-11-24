@@ -130,11 +130,18 @@ async fn open_sketch(app: AppHandle) -> Result<Option<(String, String)>, String>
 
 /// Compiles an Uno's sketch with the machine's `arduino-cli`, and answers
 /// the Intel HEX the core loads, or what the compiler said.
+///
+/// The compiler can take tens of seconds; it is waited for on a thread of its
+/// own, not on one the other commands are answered from.
 #[tauri::command]
 async fn compile_sketch(name: String, sketch: String) -> Result<String, String> {
-    let cli = sketch::find("arduino-cli").ok_or(sketch::NOT_INSTALLED)?;
-    let work = sketch::Work::new()?;
-    sketch::compile(&cli, &name, &sketch, &work.0)
+    tauri::async_runtime::spawn_blocking(move || {
+        let cli = sketch::find("arduino-cli").ok_or(sketch::NOT_INSTALLED)?;
+        let work = sketch::Work::new()?;
+        sketch::compile(&cli, &name, &sketch, &work.0)
+    })
+    .await
+    .map_err(|error| format!("could not compile: {error}"))?
 }
 
 /// A dialog's answer as a path on this machine. Only mobile platforms answer

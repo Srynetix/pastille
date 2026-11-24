@@ -72,7 +72,9 @@ pub fn find(tool: &str) -> Option<PathBuf> {
 /// paths so a line reads `Blink.ino:4:3: error: …`.
 pub fn compile(cli: &Path, name: &str, sketch: &str, work: &Path) -> Result<String, String> {
     let name = sketch_name(name);
-    let folder = work.join(&name);
+    // Each in a folder of its own, so a sketch called `out` or `tools` is
+    // not the output or the fallback's tools.
+    let folder = work.join("sketch").join(&name);
     let output = work.join("out");
     std::fs::create_dir_all(&folder).map_err(|error| format!("could not compile: {error}"))?;
     std::fs::write(folder.join(format!("{name}.ino")), sketch)
@@ -227,6 +229,7 @@ mod tests {
         let cli = stand_in(
             &work.0,
             r#"[ "$1" = compile ] && [ "$4" = arduino:avr:uno ] || exit 2
+[ "$6" != "$7" ] || { echo 'the sketch is its own output folder' >&2; exit 4; }
 out="$6"; sketch="$7"; name=$(basename "$sketch")
 grep -q 'void loop' "$sketch/$name.ino" || exit 3
 mkdir -p "$out" && echo ':00000001FF' > "$out/$name.ino.hex""#,
@@ -238,6 +241,15 @@ mkdir -p "$out" && echo ':00000001FF' > "$out/$name.ino.hex""#,
             &work.0,
         );
         assert_eq!(hex.unwrap(), ":00000001FF\n");
+        let sketch = "void setup() {}\nvoid loop() {}\n";
+        assert_eq!(
+            compile(&cli, "out", sketch, &work.0).unwrap(),
+            ":00000001FF\n"
+        );
+        assert_eq!(
+            compile(&cli, "tools", sketch, &work.0).unwrap(),
+            ":00000001FF\n"
+        );
     }
 
     #[cfg(unix)]
@@ -283,7 +295,7 @@ mkdir -p "$6" && echo ':00000001FF' > "$6/$name.ino.hex""#,
     /// a program, whichever of the two ways this machine needs.
     #[test]
     fn the_bundled_blink_compiles_with_this_machine_s_arduino_cli() {
-        let Some(cli) = find("arduino-cli") else {
+        let Some(cli) = ready_arduino_cli() else {
             return;
         };
         let sketch = std::fs::read_to_string("../programs/Blink.ino").unwrap();
@@ -293,5 +305,34 @@ mkdir -p "$6" && echo ':00000001FF' > "$6/$name.ino.hex""#,
             hex.starts_with(':') && hex.trim_end().ends_with(":00000001FF"),
             "{hex}"
         );
+    }
+
+    /// What the real compiler says reads from the sketch's own folder, not
+    /// from wherever the system keeps its temporary files.
+    #[test]
+    fn this_machine_s_compiler_errors_name_the_sketch_not_the_work_folder() {
+        let Some(cli) = ready_arduino_cli() else {
+            return;
+        };
+        let work = Work::new().unwrap();
+        let said = compile(
+            &cli,
+            "Broken",
+            "void setup() { nope(); }\nvoid loop() {}\n",
+            &work.0,
+        )
+        .unwrap_err();
+        assert!(said.contains("Broken/Broken.ino:1:"), "{said}");
+        assert!(!said.contains("pastille-sketch-"), "{said}");
+    }
+
+    /// This machine's `arduino-cli`, if it is there with the Uno's core:
+    /// without either, the tests that need the real one have nothing to run.
+    fn ready_arduino_cli() -> Option<PathBuf> {
+        let cli = find("arduino-cli")?;
+        let cores = Command::new(&cli).args(["core", "list"]).output().ok()?;
+        String::from_utf8_lossy(&cores.stdout)
+            .contains("arduino:avr")
+            .then_some(cli)
     }
 }

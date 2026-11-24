@@ -1,6 +1,8 @@
 <!-- SPDX-License-Identifier: MIT OR Apache-2.0 -->
 
 <script lang="ts">
+	import { untrack } from 'svelte'
+
 	import type { ElementHeat, ElementView, NetView, Purchase, Steps } from '../lib/core'
 	import { openOutside } from '../lib/desktop'
 	import { glyphOf } from '../lib/glyph'
@@ -149,25 +151,38 @@
 
 	// What the editor shows is what the Uno runs, again whenever that
 	// changes: another Uno, another program. A string, so a new view of the
-	// same program leaves what is being typed alone.
+	// same program leaves what is being typed alone; the view itself is read
+	// untracked, or every edit to the circuit would count as a change.
 	const running = $derived(
 		selection?.kind === 'Uno'
 			? [selection.id, selection.program ?? '', selection.sketch ?? ''].join('\u0000')
 			: '',
 	)
 	$effect(() => {
-		if (!running || !selection) return
-		const program = selection.program
-		draft =
-			selection.sketch ?? PROGRAMS.find((entry) => entry.name === program)?.sketch ?? EMPTY_SKETCH
-		draftName = program?.replace(/\.(hex|ino)$/i, '') || 'sketch'
+		if (!running) return
+		untrack(() => {
+			if (!selection) return
+			const program = selection.program
+			draft =
+				selection.sketch ?? PROGRAMS.find((entry) => entry.name === program)?.sketch ?? EMPTY_SKETCH
+			draftName = program?.replace(/\.(hex|ino)$/i, '') || 'sketch'
+			openFailure = undefined
+		})
 	})
 
+	/** Why the last .ino could not be opened. */
+	let openFailure = $state<string>()
+
 	async function openSketch() {
-		const chosen = await onopensketch?.()
-		if (!chosen) return
-		draft = chosen.text
-		draftName = chosen.name.replace(/\.ino$/i, '')
+		try {
+			const chosen = await onopensketch?.()
+			if (!chosen) return
+			draft = chosen.text
+			draftName = chosen.name.replace(/\.ino$/i, '')
+			openFailure = undefined
+		} catch (error) {
+			openFailure = error instanceof Error ? error.message : String(error)
+		}
 	}
 
 	function commitRoom(event: Event & { currentTarget: HTMLInputElement }) {
@@ -598,8 +613,8 @@
 						<button type="button" onclick={() => void openSketch()}>Open a .ino…</button>
 					{/if}
 				</p>
-				{#if compileError}
-					<pre class="compiler" role="alert">{compileError}</pre>
+				{#if openFailure ?? compileError}
+					<pre class="compiler" role="alert">{openFailure ?? compileError}</pre>
 				{/if}
 			{:else}
 				<p class="hint">In the desktop app, you can write a sketch here and compile it.</p>

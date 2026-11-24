@@ -31,6 +31,7 @@ import { CATALOGUE, PALETTE, PALETTE_CATEGORIES } from '../lib/palette'
 import { PROGRAMS } from '../lib/programs'
 import { SerialLog } from '../lib/serial.svelte'
 import { SYMBOLS } from '../lib/symbols'
+import { live } from './live.svelte'
 
 let mounted: Record<string, unknown> | undefined
 let host: HTMLElement | undefined
@@ -367,6 +368,58 @@ describe('app shell', () => {
 			.find((b) => b.textContent?.trim() === 'Compile and run')!
 			.click()
 		expect(compiled).toEqual([['u1', 'Mine', 'void setup() {}\nvoid loop() { delay(1); }\n']])
+	})
+
+	it('keeps what is typed in the sketch through edits elsewhere in the circuit', async () => {
+		const uno: ElementView = {
+			...resistor(),
+			id: 'u1',
+			kind: 'Uno',
+			value: undefined,
+			unit: '',
+			label: 'Arduino Uno',
+			program: 'Mine',
+			sketch: 'void setup() {}\nvoid loop() {}\n',
+		}
+		const props = live({ selection: uno, oncompile: () => {} })
+		const shell = render(Inspector, props)
+		await tick()
+		const editor = shell.querySelector<HTMLTextAreaElement>('textarea[aria-label="Its sketch"]')!
+		editor.value = 'typed, not compiled'
+		editor.dispatchEvent(new Event('input', { bubbles: true }))
+
+		// A part moved elsewhere: the core hands over a new view of the same Uno.
+		props.selection = { ...uno, x: 40 }
+		await tick()
+		expect(editor.value).toBe('typed, not compiled')
+
+		// Another program on it: the editor shows that one.
+		props.selection = { ...uno, program: 'Other', sketch: 'void loop() { }\n' }
+		await tick()
+		expect(editor.value).toBe('void loop() { }\n')
+	})
+
+	it('says why a .ino could not be opened (ADR 0024)', async () => {
+		const uno: ElementView = {
+			...resistor(),
+			id: 'u1',
+			kind: 'Uno',
+			value: undefined,
+			unit: '',
+			label: 'Arduino Uno',
+		}
+		const shell = render(Inspector, {
+			selection: uno,
+			oncompile: () => {},
+			onopensketch: () => Promise.reject(new Error('could not open old.ino: not UTF-8')),
+		})
+		await tick()
+		;[...shell.querySelectorAll<HTMLButtonElement>('button')]
+			.find((b) => b.textContent?.trim() === 'Open a .ino…')!
+			.click()
+		await expect
+			.poll(() => shell.querySelector('[role="alert"]')?.textContent)
+			.toContain('could not open old.ino')
 	})
 
 	it('starts the editor from a bundled program’s own sketch (ADR 0024)', async () => {
