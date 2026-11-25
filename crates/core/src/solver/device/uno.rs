@@ -288,6 +288,7 @@ mod spike {
             Arc::new(crate::netlist::Program {
                 name: "test".to_string(),
                 hex: String::new(),
+                sketch: None,
                 words: Arc::from(program),
             }),
         );

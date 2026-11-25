@@ -146,7 +146,7 @@ and `just run <file>` simulates any of them without a browser.
 | [`lib/circuitfile.ts`](../../app/src/lib/circuitfile.ts), [`lib/once.ts`](../../app/src/lib/once.ts) | Downloads, file inputs, `localStorage` (every access guarded: Safari's private mode throws) |
 | [`lib/sound.ts`](../../app/src/lib/sound.ts) | Web Audio, for buzzers |
 | [`app/src/offline/sw.js`](../../app/src/offline/sw.js) | The service worker that serves the app offline ([ADR 0009](../adrs/0009-own-offline-shell.md)) |
-| [`lib/desktop.ts`](../../app/src/lib/desktop.ts) → [`desktop/src/main.rs`](../../desktop/src/main.rs) | Tauri commands: `save_circuit`, `open_circuit`, `open_program`, `open_link`, `smoke_report` |
+| [`lib/desktop.ts`](../../app/src/lib/desktop.ts) → [`desktop/src/main.rs`](../../desktop/src/main.rs) | Tauri commands: `save_circuit`, `open_circuit`, `open_program`, `open_sketch`, `compile_sketch` (which runs the machine's `arduino-cli`, [ADR 0024](../adrs/0024-sketches-compile-on-the-desktop.md)), `open_link`, `smoke_report` |
 
 ## Departures from § 12
 

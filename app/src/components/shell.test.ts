@@ -28,8 +28,10 @@ import { forgetCircuit } from '../lib/circuitfile'
 import { createCircuit, type Circuit, type ComponentKind, type ElementView } from '../lib/core'
 import { GESTURES, keyBindings } from '../lib/keys'
 import { CATALOGUE, PALETTE, PALETTE_CATEGORIES } from '../lib/palette'
+import { PROGRAMS } from '../lib/programs'
 import { SerialLog } from '../lib/serial.svelte'
 import { SYMBOLS } from '../lib/symbols'
+import { live } from './live.svelte'
 
 let mounted: Record<string, unknown> | undefined
 let host: HTMLElement | undefined
@@ -69,6 +71,7 @@ function resistor(value = '220'): ElementView {
 		choices: [],
 		basedOn: undefined,
 		program: undefined,
+		sketch: undefined,
 	}
 }
 
@@ -334,6 +337,119 @@ describe('app shell', () => {
 		select.value = 'Fade'
 		select.dispatchEvent(new Event('change', { bubbles: true }))
 		expect(chosen).toEqual([['u1', 'Fade']])
+	})
+
+	it('shows the sketch an Uno runs, and compiles what is typed (ADR 0024)', async () => {
+		const compiled: [string, string, string][] = []
+		const uno: ElementView = {
+			...resistor(),
+			id: 'u1',
+			kind: 'Uno',
+			value: undefined,
+			unit: '',
+			label: 'Arduino Uno',
+			program: 'Mine',
+			sketch: 'void setup() {}\nvoid loop() {}\n',
+		}
+		const shell = render(Inspector, {
+			selection: uno,
+			oncompile: (id: string, name: string, sketch: string) => compiled.push([id, name, sketch]),
+			compileError: "Mine/Mine.ino:2:1: error: 'x' was not declared",
+		})
+		await tick()
+		const editor = shell.querySelector<HTMLTextAreaElement>('textarea[aria-label="Its sketch"]')!
+		expect(editor.value).toBe(uno.sketch)
+		expect(shell.textContent).toContain('Its sketch, Mine.ino')
+		expect(shell.querySelector('[role="alert"]')?.textContent).toContain("'x' was not declared")
+
+		editor.value = 'void setup() {}\nvoid loop() { delay(1); }\n'
+		editor.dispatchEvent(new Event('input', { bubbles: true }))
+		;[...shell.querySelectorAll<HTMLButtonElement>('button')]
+			.find((b) => b.textContent?.trim() === 'Compile and run')!
+			.click()
+		expect(compiled).toEqual([['u1', 'Mine', 'void setup() {}\nvoid loop() { delay(1); }\n']])
+	})
+
+	it('keeps what is typed in the sketch through edits elsewhere in the circuit', async () => {
+		const uno: ElementView = {
+			...resistor(),
+			id: 'u1',
+			kind: 'Uno',
+			value: undefined,
+			unit: '',
+			label: 'Arduino Uno',
+			program: 'Mine',
+			sketch: 'void setup() {}\nvoid loop() {}\n',
+		}
+		const props = live({ selection: uno, oncompile: () => {} })
+		const shell = render(Inspector, props)
+		await tick()
+		const editor = shell.querySelector<HTMLTextAreaElement>('textarea[aria-label="Its sketch"]')!
+		editor.value = 'typed, not compiled'
+		editor.dispatchEvent(new Event('input', { bubbles: true }))
+
+		// A part moved elsewhere: the core hands over a new view of the same Uno.
+		props.selection = { ...uno, x: 40 }
+		await tick()
+		expect(editor.value).toBe('typed, not compiled')
+
+		// Another program on it: the editor shows that one.
+		props.selection = { ...uno, program: 'Other', sketch: 'void loop() { }\n' }
+		await tick()
+		expect(editor.value).toBe('void loop() { }\n')
+	})
+
+	it('says why a .ino could not be opened (ADR 0024)', async () => {
+		const uno: ElementView = {
+			...resistor(),
+			id: 'u1',
+			kind: 'Uno',
+			value: undefined,
+			unit: '',
+			label: 'Arduino Uno',
+		}
+		const shell = render(Inspector, {
+			selection: uno,
+			oncompile: () => {},
+			onopensketch: () => Promise.reject(new Error('could not open old.ino: not UTF-8')),
+		})
+		await tick()
+		;[...shell.querySelectorAll<HTMLButtonElement>('button')]
+			.find((b) => b.textContent?.trim() === 'Open a .ino…')!
+			.click()
+		await expect
+			.poll(() => shell.querySelector('[role="alert"]')?.textContent)
+			.toContain('could not open old.ino')
+	})
+
+	it('starts the editor from a bundled program’s own sketch (ADR 0024)', async () => {
+		const uno: ElementView = {
+			...resistor(),
+			id: 'u1',
+			kind: 'Uno',
+			value: undefined,
+			unit: '',
+			label: 'Arduino Uno',
+			program: 'Blink',
+		}
+		const shell = render(Inspector, { selection: uno, oncompile: () => {} })
+		await tick()
+		const editor = shell.querySelector<HTMLTextAreaElement>('textarea[aria-label="Its sketch"]')!
+		expect(editor.value).toBe(PROGRAMS.find((program) => program.name === 'Blink')!.sketch)
+	})
+
+	it('offers no editor where nothing can compile, and says where it can (ADR 0024)', () => {
+		const uno: ElementView = {
+			...resistor(),
+			id: 'u1',
+			kind: 'Uno',
+			value: undefined,
+			unit: '',
+			label: 'Arduino Uno',
+		}
+		const shell = render(Inspector, { selection: uno })
+		expect(shell.querySelector('textarea[aria-label="Its sketch"]')).toBeNull()
+		expect(shell.textContent).toContain('In the desktop app, you can write a sketch here')
 	})
 
 	it('says an Uno with no program only listens, and offers no reset (A-03)', () => {

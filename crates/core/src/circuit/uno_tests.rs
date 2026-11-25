@@ -351,6 +351,64 @@ fn a_program_is_saved_with_its_circuit() {
     assert_eq!(&program.words[..BLINK.len()], &BLINK[..]);
 }
 
+/// The Uno in `circuit`, as the app is shown it.
+fn uno_view(circuit: &Circuit, uno: &str) -> ElementView {
+    circuit
+        .elements_for_test()
+        .into_iter()
+        .find(|view| view.id == uno)
+        .unwrap()
+}
+
+const BLINK_SKETCH: &str = "void setup() { pinMode(13, OUTPUT); }\nvoid loop() {}\n";
+
+#[test]
+fn a_compiled_program_keeps_its_sketch_through_save_reset_and_undo() {
+    let (mut circuit, uno, ..) = blinking();
+    circuit
+        .try_set_compiled_program(&uno, "Blink", &intel_hex(&BLINK), Some(BLINK_SKETCH))
+        .unwrap();
+    assert_eq!(
+        uno_view(&circuit, &uno).sketch.as_deref(),
+        Some(BLINK_SKETCH)
+    );
+
+    circuit.try_reset_program(&uno).unwrap();
+    assert_eq!(
+        uno_view(&circuit, &uno).sketch.as_deref(),
+        Some(BLINK_SKETCH)
+    );
+
+    let text = serde_json::to_string(&circuit.to_document()).unwrap();
+    let mut reopened = Circuit::new();
+    reopened.try_open(&text).unwrap();
+    let id = reopened.elements_for_test()[0].id.clone();
+    let view = uno_view(&reopened, &id);
+    assert_eq!(view.program.as_deref(), Some("Blink"));
+    assert_eq!(view.sketch.as_deref(), Some(BLINK_SKETCH));
+
+    circuit
+        .try_set_program(&uno, "Other.hex", &intel_hex(&BLINK))
+        .unwrap();
+    assert_eq!(uno_view(&circuit, &uno).sketch, None);
+    assert!(circuit.undo());
+    assert_eq!(
+        uno_view(&circuit, &uno).sketch.as_deref(),
+        Some(BLINK_SKETCH)
+    );
+}
+
+#[test]
+fn a_program_loaded_as_a_hex_saves_no_sketch() {
+    let (mut circuit, uno, ..) = blinking();
+    circuit
+        .try_set_program(&uno, "Blink.hex", &intel_hex(&BLINK))
+        .unwrap();
+    assert_eq!(uno_view(&circuit, &uno).sketch, None);
+    let text = serde_json::to_string(&circuit.to_document()).unwrap();
+    assert!(!text.contains("\"sketch\""), "{text}");
+}
+
 #[test]
 fn a_file_that_is_not_a_program_is_refused_with_how_to_get_one() {
     let (mut circuit, uno, ..) = blinking();

@@ -10,10 +10,14 @@
 //! ignores those, so saving — and opening, to match — goes through the
 //! platform's own dialogs instead. Links are the other thing: a page link with
 //! `target="_blank"` asks for a new window, which the web view never opens, so
-//! a datasheet goes to the system's browser.
+//! a datasheet goes to the system's browser. And one thing a browser cannot
+//! do at all: compile an Uno's sketch, with the machine's own `arduino-cli`
+//! (ADR 0024).
 
 // A release build is a windowed app on Windows: no console behind it.
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
+mod sketch;
 
 use std::path::PathBuf;
 
@@ -99,6 +103,45 @@ async fn open_program(app: AppHandle) -> Result<Option<(String, String)>, String
     std::fs::read_to_string(&path)
         .map(|text| Some((name, text)))
         .map_err(|error| format!("could not open {}: {error}", path.display()))
+}
+
+/// Asks for a sketch to compile into an Uno — the `.ino` the Arduino IDE
+/// saves — and reads it: its file name and its text, or nothing if the
+/// dialog was dismissed.
+#[tauri::command]
+async fn open_sketch(app: AppHandle) -> Result<Option<(String, String)>, String> {
+    let chosen = app
+        .dialog()
+        .file()
+        .add_filter("Arduino sketch", &["ino"])
+        .blocking_pick_file();
+    let Some(path) = chosen.map(local) else {
+        return Ok(None);
+    };
+    let path = path?;
+    let name = path.file_name().map_or_else(
+        || "sketch.ino".to_string(),
+        |name| name.to_string_lossy().into_owned(),
+    );
+    std::fs::read_to_string(&path)
+        .map(|text| Some((name, text)))
+        .map_err(|error| format!("could not open {}: {error}", path.display()))
+}
+
+/// Compiles an Uno's sketch with the machine's `arduino-cli`, and answers
+/// the Intel HEX the core loads, or what the compiler said.
+///
+/// The compiler can take tens of seconds; it is waited for on a thread of its
+/// own, not on one the other commands are answered from.
+#[tauri::command]
+async fn compile_sketch(name: String, sketch: String) -> Result<String, String> {
+    tauri::async_runtime::spawn_blocking(move || {
+        let cli = sketch::find("arduino-cli").ok_or(sketch::NOT_INSTALLED)?;
+        let work = sketch::Work::new()?;
+        sketch::compile(&cli, &name, &sketch, &work.0)
+    })
+    .await
+    .map_err(|error| format!("could not compile: {error}"))?
 }
 
 /// A dialog's answer as a path on this machine. Only mobile platforms answer
@@ -191,6 +234,8 @@ fn main() {
             save_circuit,
             open_circuit,
             open_program,
+            open_sketch,
+            compile_sketch,
             open_link,
             smoke_report
         ])

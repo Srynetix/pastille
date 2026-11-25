@@ -911,6 +911,10 @@ impl Circuit {
                     wiper: element.kind.wiper(),
                     choice: element.kind.choice().map(str::to_string),
                     program: self.netlist.program(id).map(|program| program.name.clone()),
+                    sketch: self
+                        .netlist
+                        .program(id)
+                        .and_then(|program| program.sketch.clone()),
                     based_on: crate::registry::definition(element.kind.name())
                         .and_then(|component| (component.basis)(&element.kind))
                         .map(|basis| BasisView {

@@ -55,6 +55,10 @@ by instruction, on an emulated ATmega328P. Blink, Fade, a traffic light, a therm
 sweep: wire the Uno to the rest of the circuit and the pins drive it. Programs that print get a
 **serial monitor** beside the board, and you can type back to them.
 
+In the desktop app you can also **write your own sketch**: change one of the examples, or start
+from nothing, and *Compile and run* puts it on the Uno. It uses the `arduino-cli` on your machine
+(`arduino-cli core install arduino:avr` once), and the sketch is saved with the circuit.
+
 ### 111 examples, one click away
 
 From "an LED and a resistor" to a 555 chasing ten LEDs through a decade counter, each example is a

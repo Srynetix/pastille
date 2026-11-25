@@ -916,6 +916,9 @@ pub struct Program {
     /// What it is called: the file it came from, or an example's name.
     pub name: String,
     pub hex: String,
+    /// The sketch it was compiled from, when it was compiled here rather
+    /// than loaded as a HEX: kept so it can be changed and compiled again.
+    pub sketch: Option<String>,
     pub words: std::sync::Arc<[u16]>,
 }
 
@@ -927,6 +930,7 @@ impl Program {
         Ok(Program {
             name: name.to_string(),
             hex: hex.to_string(),
+            sketch: None,
             words: words.into(),
         })
     }

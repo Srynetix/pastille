@@ -67,6 +67,20 @@ impl Circuit {
         Ok(self.try_set_program(id, name, hex)?)
     }
 
+    /// Gives a microcontroller a program compiled from `sketch`, which is
+    /// kept with it — saved, undone, and shown again to be changed. The
+    /// compiling is the desktop shell's: the core only reads the HEX.
+    #[wasm_bindgen(js_name = setCompiledProgram)]
+    pub fn set_compiled_program(
+        &mut self,
+        id: &str,
+        name: &str,
+        hex: &str,
+        sketch: &str,
+    ) -> Result<(), JsError> {
+        Ok(self.try_set_compiled_program(id, name, hex, Some(sketch))?)
+    }
+
     /// Starts a microcontroller's program again from the beginning, as the
     /// board's reset button does (A-03). Not an edit: the circuit is the
     /// same, so there is nothing to undo.

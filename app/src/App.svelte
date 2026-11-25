@@ -45,6 +45,7 @@
 	import { Buzz, TONE_HZ } from './lib/sound'
 	import { Pace, slowedWords } from './lib/pace'
 	import { PROGRAMS } from './lib/programs'
+	import { compileOnDesktop, DESKTOP, openSketchOnDesktop } from './lib/desktop'
 	import { replacedSentence } from './lib/replace'
 	import { boundsOf, hitTest, RouteCache, toScene, toWires, type Hit } from './lib/scene'
 	import { withoutRedundant } from './lib/routing'
@@ -1276,6 +1277,28 @@
 		}
 	}
 
+	/** Whether a sketch is being compiled, and what the compiler last refused, and for which Uno. */
+	let compiling = $state(false)
+	let compileFailure = $state<{ id: string; text: string }>()
+
+	/**
+	 * A sketch compiled by the desktop shell and put on an Uno (ADR 0024),
+	 * kept with the program so it can be changed again.
+	 */
+	async function handleCompile(id: string, name: string, sketch: string) {
+		if (!circuit || compiling) return
+		compiling = true
+		compileFailure = undefined
+		try {
+			const hex = await compileOnDesktop(name, sketch)
+			circuit.setCompiledProgram(id, name, hex, sketch)
+		} catch (error) {
+			compileFailure = { id, text: error instanceof Error ? error.message : String(error) }
+		} finally {
+			compiling = false
+		}
+	}
+
 	function handleChoice(id: string, choice: string) {
 		edit('choice', () => circuit?.setChoice(id, choice))
 	}
@@ -1745,6 +1768,10 @@
 			if (program) circuit?.setProgram(id, program.name, program.hex)
 		}}
 		onreset={(id) => circuit?.resetProgram(id)}
+		oncompile={DESKTOP ? (id, name, sketch) => void handleCompile(id, name, sketch) : undefined}
+		onopensketch={DESKTOP ? openSketchOnDesktop : undefined}
+		{compiling}
+		compileError={compileFailure?.id === selection?.id ? compileFailure?.text : undefined}
 		{room}
 		onroom={handleRoom}
 		{description}

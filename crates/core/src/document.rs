@@ -88,6 +88,10 @@ pub struct SavedElement {
 pub struct SavedProgram {
     pub name: String,
     pub hex: String,
+    /// The sketch it was compiled from, absent for a program loaded as a
+    /// HEX. A file without it opens as before; the HEX is still what runs.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sketch: Option<String>,
 }
 
 /// One net: what it joins, and where its wire was bent.
@@ -132,6 +136,7 @@ impl Circuit {
                     program: self.netlist().program(id).map(|program| SavedProgram {
                         name: program.name.clone(),
                         hex: program.hex.clone(),
+                        sketch: program.sketch.clone(),
                     }),
                 }
             })
@@ -205,7 +210,7 @@ impl Circuit {
                 circuit.pin_on_board(id, holes.clone());
             }
             if let Some(saved) = &element.program {
-                circuit.load_program(id, &saved.name, &saved.hex)?;
+                circuit.load_program(id, saved)?;
             }
             handles.push(id);
         }
